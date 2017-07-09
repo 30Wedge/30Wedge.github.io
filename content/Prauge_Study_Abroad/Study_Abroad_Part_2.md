@@ -8,14 +8,14 @@ I've written a page for each section in the original article that covers that pa
 Click through the links to read more.
 
 ##What's Happened So Far in One Semester?
-[Descriptions of my favorite "haiku moments" from Europe.]({filename}/Study_Abroad_Part_2_Haiku.md)
+[Descriptions of my favorite "haiku moments" from Europe.]({filename}Study_Abroad_Part_2_Haiku.md)
 
 
 If I tried to write down how _every_ weekend went I'd probably call it quits instead of finishing a blog post.
 So instaed, I took my some of my favorite moments of the semester and wrote them out as shortly as possible.
 
 ##The Students at CTU
-[Just a little bit about some of the friends I made in Prague.]({filename}/Study_Abroad_Part_2_Students.md)
+[Just a little bit about some of the friends I made in Prague.]({filename}Study_Abroad_Part_2_Students.md)
  
 
 Man, I really liked the people that I met in Prague.
@@ -24,7 +24,7 @@ I don't want to embarass anyone by talking about them directly, or by mentinoing
 but I still want to leave an impression of how the people here were so much fun. 
 
 ##The Faculty at CTU
-[Focusing on how classes went at CTU]({filename}/Study_Abroad_Part_2_Faculty.md)
+[Focusing on how classes went at CTU]({filename}Study_Abroad_Part_2_Faculty.md)
 
 
 Classes turned out to be more of a secondary (or maybe tertiary) focus of the semester,
@@ -33,13 +33,13 @@ I took the classes relatively seriously and got something useful out of them,
 but they definitely differed from classes at UML.
 
 ###Predictions/How did that "strategy" turn out?
-[I answer the predictions I made]({filename}/Study_Abroad_Part_2_Predictions.md)
+[I answer the predictions I made]({filename}Study_Abroad_Part_2_Predictions.md)
 
 
-Some predictions were spot on, others were not :)
+Some predictions were spot on, while others were not :)
 
 ##Eurasmus/Parting
-[Some final words on studying abroad and why you should too.]({filename}/Study_Abroad_Part_2_Eurasmus_Parting.md)
+[Some final words on studying abroad and why you should too.]({filename}Study_Abroad_Part_2_Eurasmus_Parting.md)
 
 TLDR; Prague was great. I learned a lot, and made some great friends. I'm ready to go home now, but I'll keep this with me for the rest of my life.
 

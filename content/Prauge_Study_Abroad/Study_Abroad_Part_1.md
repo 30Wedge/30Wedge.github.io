@@ -194,6 +194,6 @@ This week has been a lot of real good social stuff.
  Everything is looking good.
 
 
-[Check out the Follow-up Post I made in July]({filename}/Study_Abroad_Part_2.md)
+[Check out the Follow-up Post I made in July]({filename}Study_Abroad_Part_2.md)
 
  
