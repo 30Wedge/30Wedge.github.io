@@ -96,9 +96,6 @@ They did some very "professorly" things -- like post important URLs on powerpoin
 Things happen less efficiently here than in the states.
  It took 20 minutes at a window to get my public transportation pass.
  Our welcome day speech from the professors included two 30-minute coffee breaks (the speaches themselves probably took 3-4 hours).
-
-
-Generally speaking, things seem less efficient here. 
 At home, I like having one single student card attached to one central student account that I can use to pay for lunch, access my class buildings, get into the gym etc.
 Here, I have a seperate paper form keeping track of my student status, international student status, public transit, course record and rent payment.
 There's also two online accounts -- one for CUT and a seperate one for the Faculty of Electrical Engineering.
@@ -197,6 +194,6 @@ This week has been a lot of real good social stuff.
  Everything is looking good.
 
 
-I'll follow up in July.
+[Check out the Follow-up Post I made in July]({filename}/Study_Abroad_Part_2.md)
 
  
