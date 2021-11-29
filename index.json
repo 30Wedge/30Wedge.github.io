@@ -4,14 +4,21 @@
 	"title": "Andy MacGregor",
 	"tags": [],
 	"description": "",
-	"content": "Hello index.md testing for later real posts.\n"
+	"content": "Hello index.md "
 },
 {
-	"uri": "http://example.org/",
-	"title": "Andy MacGregor&#39;s blog - Articles on embedded software development",
+	"uri": "http://example.org/posts/first-post/",
+	"title": "First Post",
 	"tags": [],
 	"description": "",
-	"content": ""
+	"content": "Hello world - pt 2 Testing code highlighting:\nclass foo{ int a; }; "
+},
+{
+	"uri": "http://example.org/posts/",
+	"title": "Posts",
+	"tags": [],
+	"description": "",
+	"content": "Collection of individual posts "
 },
 {
 	"uri": "http://example.org/categories/",
