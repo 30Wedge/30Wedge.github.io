@@ -7,5 +7,14 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 29 Nov 2021 13:24:49 -0500</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Adding Unit Tests to Legacy C Code with GTest and FFF</title>
+      <link>http://example.org/posts/adding_unit_tests_to_legacy_code/</link>
+      <pubDate>Mon, 29 Nov 2021 16:43:12 -0500</pubDate>
+      
+      <guid>http://example.org/posts/adding_unit_tests_to_legacy_code/</guid>
+      <description>Table of Contents  Introduction Some background on jargon used in this article Selecting the sample C app Base App Why can&amp;rsquo;t the code be tested now? What&amp;rsquo;s the problem with putting it into a test harness now? The road to a compiling test harness A simple demo with FFF mocking library calls Unit testing a function with no library API calls   Introduction The main purpose of this article is to show a concrete example of how to take some legacy software written in C and add unit tests into the project using GTest and fff.</description>
+    </item>
+    
   </channel>
 </rss>
