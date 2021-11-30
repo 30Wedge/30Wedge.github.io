@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.89.4" />
+    <meta name="description" content="">
+
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Adding Unit Tests to Legacy C Code with GTest and FFF :: Andy MacGregor&#39;s blog - Articles on embedded software development</title>
+
+    
+    <link href="/css/nucleus.css?1638306476" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1638306476" rel="stylesheet">
+    <link href="/css/hybrid.css?1638306476" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1638306476" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1638306476" rel="stylesheet">
+    <link href="/css/auto-complete.css?1638306476" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1638306476" rel="stylesheet">
+    <link href="/css/theme.css?1638306476" rel="stylesheet">
+    <link href="/css/tabs.css?1638306476" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1638306476" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1638306476"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/posts/adding_unit_tests_to_legacy_code/">
+    <nav id="sidebar" class="">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href='/'>
+   logo tbd
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1638306476"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1638306476"></script>
+<script type="text/javascript">
+    
+        var baseurl = "http:\/\/example.org\/";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1638306476"></script>
+
+    
+  </div>
+  
+    <section id="homelinks">
+      <ul>
+        <li>
+            <a class="padding" href='/'><i class='fas fa-home'></i> Home</a>
+        </li>
+      </ul>
+    </section>
+  
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/posts/" title="Posts" class="dd-item
+        parent
+        
+        
+        ">
+      <a href="/posts/">
+          Posts
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/posts/adding_unit_tests_to_legacy_code/" title="Adding Unit Tests to Legacy C Code with GTest and FFF" class="dd-item active">
+        <a href="/posts/adding_unit_tests_to_legacy_code/">
+        Adding Unit Tests to Legacy C Code with GTest and FFF
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+      
+    </li>
+  
+ 
+
+          
+        
+    </ul>
+
+    
+    
+
+    
+    <section id="footer">
+      <p>Built with <a href="https://github.com/matcornic/hugo-theme-learn"><i class="fas fa-heart"></i></a> from <a href="https://getgrav.org">Grav</a> and <a href="https://gohugo.io/">Hugo</a></p>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>Andy MacGregor</a> > <a href='/posts/'>Posts</a> > Adding Unit Tests to Legacy C Code with GTest and FFF
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#table-of-contents">Table of Contents</a>
+      <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#some-background-on-jargon-used-in-this-article">Some background on jargon used in this article</a></li>
+        <li><a href="#selecting-the-sample-c-app">Selecting the sample C app</a></li>
+        <li><a href="#base-app">Base App</a></li>
+        <li><a href="#why-cant-the-code-be-tested-now-whats-the-problem-with-putting-it-into-a-test-harness-now">Why can&rsquo;t the code be tested now? What&rsquo;s the problem with putting it into a test harness now?</a></li>
+        <li><a href="#the-road-to-a-compiling-test-harness">The road to a compiling test harness</a></li>
+        <li><a href="#a-simple-demo-with-fff-mocking-library-calls">A simple demo with FFF mocking library calls</a></li>
+        <li><a href="#unit-testing-a-function-with-no-library-api-calls">Unit testing a function with no library API calls</a></li>
+        <li><a href="#recap">Recap</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Adding Unit Tests to Legacy C Code with GTest and FFF
+            </h1>
+          
+
+        
+
+
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#some-background-on-jargon-used-in-this-article">Some background on jargon used in this article</a></li>
+<li><a href="#selecting-the-sample-c-app">Selecting the sample C app</a></li>
+<li><a href="#base-app">Base App</a></li>
+<li><a href="#why-cant-the-code-be-tested-now-whats-the-problem-with-putting-it-into-a-test-harness-now">Why can&rsquo;t the code be tested now? What&rsquo;s the problem with putting it into a test harness now?</a></li>
+<li><a href="#the-road-to-a-compiling-test-harness">The road to a compiling test harness</a></li>
+<li><a href="#a-simple-demo-with-fff-mocking-library-calls">A simple demo with FFF mocking library calls</a></li>
+<li><a href="#unit-testing-a-function-with-no-library-api-calls">Unit testing a function with no library API calls</a></li>
+</ul>
+<hr>
+<h3 id="introduction">Introduction</h3>
+<p>The main purpose of this article is to show a concrete example of how to take some legacy software written in C and add unit tests into the project using GTest and fff.</p>
+<p>I&rsquo;ve set up an companion git repo to go along with the article here: <a href="https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code">https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code</a>. This is where I&rsquo;ve written the code that I&rsquo;m describing and taking excerpts from.
+Throughout the article, I&rsquo;ll reference different commits from that repo which show the state of the project at each step of the process.</p>
+<p>Here&rsquo;s how this article will read:</p>
+<ul>
+<li>We&rsquo;ll start with a sample C app with no existing tests and some external dependency(ies).</li>
+<li>I&rsquo;ll show how to break the dependency to enable the app to be compiled with a <em>mock</em> dependency for testing</li>
+<li>I&rsquo;ll show how to add the GTest and fff libraries into the ecosystem so that they can be used to help write unit tests.</li>
+<li>Then I&rsquo;ll get the app into a compiling unit test</li>
+<li>Lastly I&rsquo;ll  write a few example tests to show how the test libraries work.</li>
+</ul>
+<p>And here&rsquo;s what this article <em>wont</em> cover:</p>
+<ul>
+<li><em>Why</em> write unit tests?
+<ul>
+<li>Other people have wrote much more convincingly on this,</li>
+</ul>
+</li>
+<li>Pros. and cons. of different unit test libraries out there.
+<ul>
+<li>I&rsquo;m writing about these two libraries because this is what I&rsquo;m most famliar with.</li>
+</ul>
+</li>
+<li>How to write <em>good</em> unit tests
+<ul>
+<li>I&rsquo;m avoiding this because it depends a lot on the application you&rsquo;re working with and on your team&rsquo;s priorities. I&rsquo;d recomment Michael Feathers’ book &ldquo;Working Effectively With Legacy Code&rdquo; for strategies on how to prioritize testing that I use at work.</li>
+</ul>
+</li>
+</ul>
+<p>You can clone the git repo locally and run some git commands or view the different stages of the github repo in the browser to follow along.</p>
+<p>I&rsquo;ll reference commits from the companion repo with note boxes in this format:</p>
+
+<div class="notices note" ><p>Follow along locally with: <em>some git command to run to check out the commit on your computer</em><br>
+View online with: <em>some link to view the commit</em></p>
+</div>
+
+<h3 id="some-background-on-jargon-used-in-this-article">Some background on jargon used in this article</h3>
+<p><strong>Gtest</strong> - &ldquo;Google Test&rdquo;. An open source test framework for writing C++ unit tests. <a href="https://github.com/google/googletest">https://github.com/google/googletest</a></p>
+<p><strong>fff</strong> - Fake Function Framework (fff). an open source library for mocking C functions for test. <a href="https://github.com/meekrosoft/fff">https://github.com/meekrosoft/fff</a></p>
+<p><strong>&ldquo;mock function&rdquo;</strong> &ldquo;Mocks [functions] are an implementation that is controlled by the unit test&rdquo;. The words &ldquo;Mock&rdquo;, &ldquo;fakes&rdquo; and &ldquo;stubs&rdquo; are often used interchangably, or with varying definitions. I prefer to use this article&rsquo;s differention between the three terms <a href="https://interrupt.memfault.com/blog/unit-test-mocking#stubs-mocks-and-fakes-review">Memfault on Mocks</a>. I&rsquo;ll often use the work <strong>mock</strong> as a verb meaning - to replace a library function wih a mock function.
+Within the tests described in this article, we&rsquo;re <em>only</em> going to be using mock functions as described here. The dependencies involved are relatively straight forwards, so we can use the same strategy to mock them all with fff.</p>
+<p><strong>Dependency</strong> I&rsquo;m going to use this <a href="https://coderslegacy.com/what-are-dependencies-in-programming/">description for what a dependency is from Coder&rsquo;s Legacy</a></p>
+<blockquote>
+<p>if Program A requires Program B to be able to run, Program A is dependent on Program B. This makes Program B a dependency of Program A.</p>
+</blockquote>
+<p>In this case, Progam A is our <code>snake</code> app, and Program B is the <code>conio.h</code> library. <code>snake</code> can&rsquo;t run without <code>conio.h</code> so <code>conio.h</code> is a dependency of <code>snake</code>.</p>
+<p><strong>Seam</strong> &ldquo;A seam is a place where you can alter behavior in your program without editing in that place.&rdquo; This is the definition from &ldquo;Working Effectively with Legacy Code' by Robert Martin. For this article, I&rsquo;ll focus on &ldquo;link seams&rdquo; which are places where you can alter the behavior of your program by changing how it is linked at compile time by changing the include path of the build program.</p>
+<h3 id="selecting-the-sample-c-app">Selecting the sample C app</h3>
+<p>I looked far and wide for a piece of open source code to fit the profile for this project, and here&rsquo;s the app I chose: <a href="https://github.com/troglobit/snake">https://github.com/troglobit/snake</a> .</p>
+<p>I&rsquo;m  think its absolutely perfect for this example because</p>
+<ul>
+<li>It is written in C.</li>
+<li>It is digestible for a blog post &ndash; The entire app is less than a thousand lines of code total.</li>
+<li>It has one dependency that makes some things hard to test while the dependency is compiled in.</li>
+<li>It is legacy code. Here&rsquo;s what I count as legacy code:
+<ul>
+<li><input checked="" disabled="" type="checkbox"> There are no existing tests</li>
+<li><input checked="" disabled="" type="checkbox"> Nobody who remembers how it works is available to help (The last commit was 7 years ago from someone I don&rsquo;t know).</li>
+</ul>
+</li>
+<li>Its a video game, and that&rsquo;s fun.</li>
+</ul>
+<h3 id="base-app">Base App</h3>
+
+<div class="notices note" ><p>Follow along locally with:  <code>git checkout 6befd20</code><br>
+View online with:  <a href="https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/6befd200ed7327e6c6e32fef47a1734b0baa2d7d">https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/6befd200ed7327e6c6e32fef47a1734b0baa2d7d</a></p>
+</div>
+
+<p>I&rsquo;ve taken the core snake code and modified it with a folder structure to mimic what an enterprise software repo might look like.</p>
+<p>Here&rsquo;s the original state of the project as we&rsquo;re getting to it &ndash; all of the code and logic is in snake.c - the main function makes direct calls to the graphics library (conio.h) &amp; syscalls.</p>
+<p>Here&rsquo;s what the file tree looks like:</p>
+<pre tabindex="0"><code>.
+└── app
+    └── src
+        ├── conio.h
+        ├── Makefile
+        ├── snake.c
+        └── snake.h
+</code></pre><p>You can run these commands to check out what the app does</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd app/src
+make
+./snake
+</code></pre></div><p>As it is now, the code is not structured well for unit testing:</p>
+<ul>
+<li>very few functions are pure without side effects.</li>
+<li>there are very few seams that we can exploit for unit test.</li>
+</ul>
+<p>But we can still do it! With minimal refactoring changes, we can get this code into a unit test harness and work from there.</p>
+<h3 id="why-cant-the-code-be-tested-now-whats-the-problem-with-putting-it-into-a-test-harness-now">Why can&rsquo;t the code be tested now? What&rsquo;s the problem with putting it into a test harness now?</h3>
+<p>I can summarize my complaints about writing tests for this code into these two bullet points:</p>
+<ol>
+<li>There is very little encapsulation. In other words, functions don&rsquo;t follow the &ldquo;Single-Responsibility Principle&rdquo; and rely heavily on side effects.</li>
+<li>There are very few seams that we can use to sense side effects for unit test.</li>
+</ol>
+<p>Both the lack of encapsulation and lack of seams are hurdles on their own and when combined form an even greater hurdle blocking us from writing meaningful tests. I&rsquo;ll take the code in the state its in now, make a perfunctory attempt to write a test for each listed problem to show how it drags down our unit testing efforts.</p>
+<h4 id="introducing-the-example--how-lack-of-encapsulation-feeds-into-the-problem">Introducing the example &amp; how lack of encapsulation feeds into the problem</h4>
+<p>When a function has <em>way</em> too much responsibility, it consequently takes <em>way</em> too much logic to verify all of its responsibilities are performed.</p>
+<p>Lets say we want to write unit tests for the <code>function setup_level()</code>. This function is over 100 lines long, and has many different responsibilities. It looks like the original author separated the responsibilities into different sections, which are headed with the following block comments.</p>
+<ul>
+<li><strong>&ldquo;Initialize on (re)start&rdquo;</strong></li>
+<li>&ldquo;Set up global variables&rdquo;</li>
+<li>&ldquo;Fill grid with blanks&rdquo;</li>
+<li><strong>&ldquo;Fill grid with objects&rdquo;</strong></li>
+<li>&ldquo;Create snake array of length snake-&gt;len&rdquo;</li>
+<li><strong>&ldquo;Draw playing board&rdquo;</strong></li>
+</ul>
+<p>That&rsquo;s certainly more than a single responsibility! For simplicity of example I&rsquo;m going to focus on the three bolded sections.</p>
+<p>Here&rsquo;s an except of the function, with the bolded sections listed in full, and the rest of the sections replaced with ellipsis.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup_level</span> (screen_t <span style="color:#f92672">*</span>screen, snake_t <span style="color:#f92672">*</span>snake, <span style="color:#66d9ef">int</span> level)
+{
+   <span style="color:#66d9ef">int</span> i, row, col;
+
+   srand ((<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>)time (NULL));
+
+   <span style="color:#75715e">/* Initialize on (re)start */</span>
+   <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> level)
+   {
+      screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+      screen<span style="color:#f92672">-&gt;</span>obstacles <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;
+      screen<span style="color:#f92672">-&gt;</span>level <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+      snake<span style="color:#f92672">-&gt;</span>speed <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>;
+      snake<span style="color:#f92672">-&gt;</span>dir <span style="color:#f92672">=</span> RIGHT;
+   }
+   <span style="color:#66d9ef">else</span>
+   {
+      screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">+=</span> screen<span style="color:#f92672">-&gt;</span>level <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>;
+      screen<span style="color:#f92672">-&gt;</span>obstacles <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>;
+      screen<span style="color:#f92672">-&gt;</span>level<span style="color:#f92672">++</span>;          <span style="color:#75715e">/* add to obstacles */</span>
+
+      <span style="color:#66d9ef">if</span> ((screen<span style="color:#f92672">-&gt;</span>level <span style="color:#f92672">%</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">&amp;&amp;</span> (snake<span style="color:#f92672">-&gt;</span>speed <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>))
+      {
+         snake<span style="color:#f92672">-&gt;</span>speed<span style="color:#f92672">--</span>;        <span style="color:#75715e">/* increase snake-&gt;speed every 5 levels */</span>
+      }
+   }
+
+   <span style="color:#75715e">/* Set up global variables for new level */</span>
+   <span style="color:#75715e">//...
+</span><span style="color:#75715e"></span>
+   <span style="color:#75715e">/* Fill grid with blanks */</span>
+   <span style="color:#75715e">//...
+</span><span style="color:#75715e"></span>
+   <span style="color:#75715e">/* Fill grid with objects */</span>       
+   <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> screen<span style="color:#f92672">-&gt;</span>obstacles <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>)
+   {
+      <span style="color:#75715e">/* Find free space to place an object on. */</span>
+      <span style="color:#66d9ef">do</span>
+      {
+         row <span style="color:#f92672">=</span> rand () <span style="color:#f92672">%</span> MAXROW;
+         col <span style="color:#f92672">=</span> rand () <span style="color:#f92672">%</span> MAXCOL;
+      }
+      <span style="color:#66d9ef">while</span> (screen<span style="color:#f92672">-&gt;</span>grid[row][col] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39; &#39;</span>);
+
+      <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> screen<span style="color:#f92672">-&gt;</span>obstacles)
+      {
+         screen<span style="color:#f92672">-&gt;</span>grid[row][col] <span style="color:#f92672">=</span> CACTUS;
+      }
+      <span style="color:#66d9ef">else</span>
+      {
+         screen<span style="color:#f92672">-&gt;</span>gold<span style="color:#f92672">++</span>;
+         screen<span style="color:#f92672">-&gt;</span>grid[row][col] <span style="color:#f92672">=</span> GOLD;
+      }
+   }
+
+   <span style="color:#75715e">/* Create snake array of length snake-&gt;len */</span>
+   <span style="color:#75715e">//...
+</span><span style="color:#75715e"></span>
+   <span style="color:#75715e">/* Draw playing board */</span>
+   clrscr();
+   draw_line (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>);
+
+   <span style="color:#66d9ef">for</span> (row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>)
+   {
+      gotoxy (<span style="color:#ae81ff">1</span>, row <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+
+      textcolor (LIGHTBLUE);
+      textbackground (LIGHTBLUE);
+      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
+      textattr (RESETATTR);
+
+      textcolor (WHITE);
+      <span style="color:#66d9ef">for</span> (col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>)
+      {
+         printf (<span style="color:#e6db74">&#34;%c&#34;</span>, screen<span style="color:#f92672">-&gt;</span>grid[row][col]);
+      }
+
+      textcolor (LIGHTBLUE);
+      textbackground (LIGHTBLUE);
+      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
+      textattr (RESETATTR);
+   }
+
+   draw_line (<span style="color:#ae81ff">1</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+
+   show_score (screen);
+
+   textcolor (LIGHTRED);
+   gotoxy (<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">1</span>);
+   printf (<span style="color:#e6db74">&#34;[ Micro Snake v%s ]&#34;</span>, VERSION);
+}
+</code></pre></div><p>I&rsquo;m going to walk through the steps to make a unit test for this function. First, its helpful to describe what the function does in English, to divine what test cases should be made. I&rsquo;ll start by just trying to test the &ldquo;Draw playing board&rdquo; section, and I&rsquo;ll start by describing what it is doing:</p>
+<p>When <code>setup_level()</code> is called, do the following regardless of the parameters.</p>
+<ol>
+<li>Clear the screen<br>
+a. Draw a lightblue box around the screen<br>
+b. Draw the content of the screen&rsquo;s grid objects to the screen in white characters<br>
+c. Draw the score<br>
+d. Draw a red banner with &ldquo;Micro Snake&rdquo;+ version information at coordinates 30,1</li>
+</ol>
+<p>This is a great start. The description is a little verbose; it is vague at times; I&rsquo;m completely ignoring the rest of the sections for now. However, the descriptions outlines a seemingly simple single test case for this section since it seems like we should expect a single behavior regardless of the function parameters.</p>
+<p>However, we quickly run into problems if we try to implement this test. How should we verify how the &ldquo;Draw playing board&rdquo; section draws the content of the screen (see 1.c above)?</p>
+<p>We can see that <code>setup_level()</code>  draws the screen grid by using calls to <code>gotoxy()</code>  to align subsequent calls to <code>printf()</code> on line 183.
+Lets ignore the <code>gotoxy()</code>  function for now, and focus on how to verify the  <code>printf()</code> calls.
+Maybe we could compile in a mocked version of <code>printf()</code> which records every character printed into a buffer, and make sure the buffer matches some expected value to verify that its drawing the screen correctly? Its not ideal, but possible. But how would a test know what that buffer&rsquo;s expected value should be? We know it should be based on the contents of the screen→grid array, and that array is initialized in this function. Maybe we could make an independent screen_t  object in our test case, and initialize its grid  array in the same way as <code>setup_level()</code>, then use that as the expected value to compare our buffer to.</p>
+<p>Looking back to the  &ldquo;Fill grid with objects&rdquo; section, we can see that <code>screen→grid</code> is initialized based on the return of a <code>rand()</code> function.
+This makes it hard for us to initialize an identical grid in our test case. Maybe we could copy the logic, and take extra steps to seed the random generator with <code>srand()</code> using the same value that <code>setup_level()</code> does on line 132.</p>
+<p>However- that&rsquo;s still not enough to initialize an identical grid, because the &ldquo;Fill grid with objects&rdquo; logic depends on the value of <code>screen→obstacles</code>.
+If we scroll back up through the code, we can see that <code>screen→obstacles</code> is initialized in the &ldquo;Initialize on (re)start&rdquo; section of the function and that its initial value depends on the level parameter to the function.
+We&rsquo;d have to copy that logic to our test case as well if we&rsquo;re going to initialize an identical grid to verify the function&rsquo;s calls to <code>printf()</code>.</p>
+<p>I&rsquo;m going to stop this thought experiment here. See how the complexity of setting up and verifying this single test case has expanded way beyond the initial description of this section? Its a lot of unnecessary work to copy the grid initialization logic into our test.</p>
+<p>Ff the code was written with the single responsibility principle in mind, so that the function drawing the grid was not also in charge of initializing the grid, we would be having a much easier time. Here&rsquo;s an example implementation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup_level</span> (screen_t <span style="color:#f92672">*</span>screen, snake_t <span style="color:#f92672">*</span>snake, <span style="color:#66d9ef">int</span> level)
+{
+   <span style="color:#75715e">//...
+</span><span style="color:#75715e"></span>
+   <span style="color:#75715e">/* Draw playing board */</span>
+   draw_initial_board(<span style="color:#f92672">&amp;</span>(screen<span style="color:#f92672">-&gt;</span>grid), screen<span style="color:#f92672">-&gt;</span>score);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">draw_initial_board</span>( <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> (<span style="color:#f92672">*</span>grid)[MAXROW][MAXCOL], <span style="color:#66d9ef">int</span> score){
+   clrscr(); 
+   draw_line (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>);
+
+   <span style="color:#66d9ef">for</span> (row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>)
+   {
+      gotoxy (<span style="color:#ae81ff">1</span>, row <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+
+      textcolor (LIGHTBLUE);
+      textbackground (LIGHTBLUE);
+      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
+      textattr (RESETATTR);
+
+      textcolor (WHITE);
+      <span style="color:#66d9ef">for</span> (col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>)
+      {
+         printf (<span style="color:#e6db74">&#34;%c&#34;</span>, (<span style="color:#f92672">*</span>grid)[row][col]);
+      }
+
+      textcolor (LIGHTBLUE);
+      textbackground (LIGHTBLUE);
+      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
+      textattr (RESETATTR);
+   }
+
+   draw_line (<span style="color:#ae81ff">1</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>); 
+   show_score (score);
+
+   textcolor (LIGHTRED);
+   gotoxy (<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">1</span>);
+   printf (<span style="color:#e6db74">&#34;[ Micro Snake v%s ]&#34;</span>, VERSION); 
+}
+</code></pre></div><p>Now we could write a test to verify all of the logic in the &ldquo;Draw playing board&rdquo; section by calling <code>draw_initial_board()</code> directly with a <code>grid</code> that the test case is free to initialize however is easiest. This method skips the unnecessary and brittle work of making sure that the grid is initialized exactly how <code>setup_level()</code> does it.
+Better still - the scope of the parameters to <code>draw_initial_board()</code> has been narrowed down to only pass what the function needs to do its job.</p>
+<p>There are still some unfortunate problems with this example - like how to verify the calls the calls to <code>printf()</code>? and what to do to verify that the <code>show_score()</code>  function was called correctly? (I hand-wavingly simplified its call signature for this example). The next two examples show more pressing problems though:</p>
+<p>The main takeaway here is that <strong>shorter simpler functions are less work to test.</strong></p>
+<h4 id="how-having-few-seams-makes-testing-harder">How having few seams makes testing harder</h4>
+<p>Lets analyze the last code block in the previous example with &ldquo;alternate screen drawing logic&rdquo;. If we refactored the code like this, the test for setup_level()  would look differently.  Originally we broke the function up into sections, and talked about how to test the sections separately. Now that the &ldquo;Draw playing board&rdquo; section is entirely implemented in <code>draw_initial_board()</code>, we can test <code>draw_initial_board()</code> completely independently from <code>setup_level()</code> now.
+We should only need to test that <code>setup_level()</code> calls <code>draw_initial_board()</code> with the right parameters to verify this section. We don&rsquo;t need to duplicate test logic to test <code>draw_initial_board()</code>&rsquo;s behavior in the <code>setup_level()</code> test.</p>
+<p>The best way to test that <code>draw_initial_board()</code> gets called is with a mock function.
+With FFF, we could define a mock version of <code>draw_initial_board()</code> that does nothing but record how many times it gets called and with what parameters, and we would want to compile this test so that was the test version of <code>setup_level()</code>  uses the mock function instead of the real <code>show_score()</code>.</p>
+<p>However, we can&rsquo;t compile the test in this way without modifying the snake.c code ,because there is no seam between <code>show_score()</code>, and <code>draw_initial_board()</code>. 
+<code>show_score()</code> is called directly from <code>draw_initial_board()</code> (not <em>indirectly</em>,  through a function pointer or a macro layer of indirection) and they are both defined in the same file as strong symbols.
+There is no way for the C compiler / linker to substitute a mock version of <code>show_score()</code> when compiling the test.</p>
+<p>We can fix this, by either declaring <code>show_score()</code> as a weak symbol and doing some tricky compiler/linker work or moving <code>show_score()</code> and related lower level functions to a separate file. Either approach will create a link seam between the two functions that allows a unit test to compile with a mock version of <code>show_score()</code>.</p>
+<p>I strongly prefer the strategy of moving related functions to a separate file because its less confusing than sorting out weak symbols, and helps structure your code as an added bonus.</p>
+<p>If we weren&rsquo;t able to mock <code>show_score()</code>, but we still wanted the test to verify that it was called, we&rsquo;d have to verify that its side effects executed in the test case.
+This is inconvenient, but feasible in this example since <code>show_score()</code> is a simple function that only calls library API functions without any conditional logic. However, if <code>show_score()</code> conditionally called into other functions (that called into other other functions), the complexity would quickly spin out of control.</p>
+<p>The takeaway here is: <strong>not having seams in higher level functions make their tests difficult to write and brittle.</strong></p>
+<h4 id="illustrating-the-lack-of-seam-with-conioh">Illustrating the lack of seam with conio.h</h4>
+<p>Sticking with this example, lets talk about what a unit test for <code>show_score()</code>  could look like.
+Here&rsquo;s the source of the function under test:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">show_score</span> (screen_t <span style="color:#f92672">*</span>screen)
+{
+   textcolor (LIGHTCYAN);
+   gotoxy (<span style="color:#ae81ff">3</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+   printf (<span style="color:#e6db74">&#34;Level: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>level);
+
+   textcolor (YELLOW);
+   gotoxy (<span style="color:#ae81ff">21</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+   printf (<span style="color:#e6db74">&#34;Gold Left: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>gold);
+
+   textcolor (LIGHTGREEN);
+   gotoxy (<span style="color:#ae81ff">43</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+   printf (<span style="color:#e6db74">&#34;Score: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>score);
+
+   textcolor (LIGHTMAGENTA);
+   gotoxy (<span style="color:#ae81ff">61</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+   printf (<span style="color:#e6db74">&#34;High Score: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>high_score);
+}
+</code></pre></div><p>There isn&rsquo;t much logic to test! However, we could try making a super simple test case that only verified that calls to the <code>gotoxy()</code> and <code>textcolor()</code> conio.h API functions are made with the right parameters in the right order.
+My approach is to create a <code>mock/conio.h</code> file that gets included by snake.c only in unit test builds. That file would have mock functions of all the conio.h API functions created by FFF, including <code>gotoxy()</code> and <code>textcolor()</code> inside of a mock conio.h header.<br>
+However, there is no way to link in our mocked conio.h file as the code is currently structured because of the file structure, the conio.h include statement and the C Preprocessor rules.</p>
+<p>For review, here&rsquo;s the file structure:</p>
+<pre tabindex="0"><code>src/
+├── conio.h
+├── snake.c
+└── snake.h
+</code></pre><p>And here&rsquo;s the include statement in snake.c:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;conio.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;snake.h&#34;</span><span style="color:#75715e">
+</span></code></pre></div><p>And here&rsquo;s a quick refresher on the gcc search path rules: <a href="https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html">https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html</a> with the relevant section here:</p>
+<blockquote>
+<p>By default, the preprocessor looks for header files included by the quote form of the directive #include &ldquo;file&rdquo; first relative to the directory of the current file, and then in a preconfigured list of standard system directories.</p>
+</blockquote>
+<p>Because conio.h is in the same directory as snake.c, and its included in quote form, the preprocessor is always going to check the app/src/  directory for conio.h first, and use the real library file, not our mocked file.</p>
+<p>Fortunately, this problem doesn&rsquo;t take much work to fix with linker options and restructuring the file system (see the next section).</p>
+<p>Having a seam to mock conio.h is more important than not having a seam with any of our internal functions, because we never want our tests for application to depend on the behavior of a third party library that might change and is out of our control.</p>
+<hr>
+<h3 id="the-road-to-a-compiling-test-harness">The road to a compiling test harness</h3>
+<p>Before starting with hacking on the code, I have a picture in mind of where I want the test harness to end up.</p>
+<p>To have the tests sense how the graphics are drawn, we&rsquo;ll have to isolate the conio.h library API calls and replace them with mock functions.</p>
+<p>Here&rsquo;s a sketch of what the test folder will look like - where <code>mock/conio.h</code> is a file with the conio.h API, but with mock definitions created with FFF.</p>
+<pre tabindex="0"><code>    ├── src
+    │   ...
+    └── test
+        ├── mock
+        │   └── conio.h
+        └── snake_test.cpp
+</code></pre><h4 id="introducing-a-link-seam-between-snakec-and-conioh">Introducing a link seam between snake.c and conio.h</h4>
+
+<div class="notices note" ><p>Follow along locally with: <code>git checkout 07bd51b</code><br>
+View online with:  <a href="https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/07bd51bef65d8644c39d58c3ce7225ae1ed77110">https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/07bd51bef65d8644c39d58c3ce7225ae1ed77110</a></p>
+</div>
+
+<p>To have the ability to compile unit tests with a mocked version of the conio.h library, we&rsquo;re going to need a seam to be able to compile our unit test with the mocked library version without changing the actual application code.</p>
+<p>As it is now, we&rsquo;re not going to be able to mock out conio.h because of the search path rules. snake.c includes it with double quotes to a relative path reference: <code>#include &quot;conio.h&quot;</code>. Take a gander here at the gcc search path rules: <a href="https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html">https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html</a>. For quoted include paths, the current directory is searched first before any other location, so we wouldn&rsquo;t be able to override which version of conio.h is included in the build system.</p>
+<p>However, if the included file (conio.h) isn&rsquo;t directly in the source file&rsquo;s directory, then  the preprocessor searches in additional directories that can be configured by the build system.</p>
+<p>First we&rsquo;re going to move conio.h to a different directory so that the preprocessor can&rsquo;t find the file immediately.</p>
+<p>Now our source tree looks like this &ndash;</p>
+<pre tabindex="0"><code>    └── src
+        ├── conio
+        │   └── conio.h
+        ├── Makefile
+        ├── snake
+        ├── snake.c
+        └── snake.h
+</code></pre><p>Then we&rsquo;re going to change the build system to add <code>app/src/conio</code> to the search path when building the <code>snake</code> app.</p>
+<p>This organization gives us a new power &ndash; by not including the full relative path to conio.h inside of the include directive in snake.c, we let the build system choose which version of conio.h to include, opening up the possibility to include a mocked version of conio.h for a unit test to use.</p>
+<h4 id="set-up-test-infrastructure">Set up Test infrastructure</h4>
+<p>The next step is to set up the tools we&rsquo;ll be using for test.</p>
+<ul>
+<li>fff</li>
+<li>gtest</li>
+</ul>
+<p>Both of these projects are open source, permissively licensed, and have enough documentaiton to get them integrated in our project quickly.</p>
+<h5 id="fff">FFF</h5>
+
+<div class="notices note" ><p>Follow along locally with:  <code>git checkout cc6aaed</code><br>
+View online with:  <a href="https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/cc6aaed318e2b6df9aaabe90649b51ad498deffa">https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/cc6aaed318e2b6df9aaabe90649b51ad498deffa</a></p>
+</div>
+
+<p>This commit only downloads the fff.h library from <a href="https://github.com/meekrosoft/fff">its main github page</a>. I chose to put it in the path: <code>test/fff/fff.h</code> to keep the include directory separate from the directory containing the test cases and separate from any mock library definitions.</p>
+<pre tabindex="0"><code>    └── test
+        └── fff
+            └── fff.h
+</code></pre><h5 id="gtest">Gtest</h5>
+
+<div class="notices note" ><p>Follow along locally with:  <code>git checkout 28b6817</code><br>
+View online with:  <a href="https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/28b681772ae3f21e09c70d49afb5eaf25619693d">https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/28b681772ae3f21e09c70d49afb5eaf25619693d</a></p>
+</div>
+
+<p>This commit is integrating GTest into our project. The <a href="https://google.github.io/googletest/quickstart-cmake.html">linked official tutorial</a> explains &ldquo;what files to add&rdquo; and &ldquo;how to add them&rdquo; much better than I could, so I&rsquo;d recommend checking out how that works.</p>
+<p>But to answer the question: &ldquo;Why are we doing these things?&rdquo; I have 3 related goals that this commit is solving.</p>
+<ol>
+<li>We want to create a test binary that can link against the GTest library.
+<ul>
+<li>This is the whole point of the aticle :) We have some legacy code; we want to get it under test; GTest is the unit test framework of choice; Therefore to make a GTest unit test, the test suite needs to be linked against the GTest library.</li>
+</ul>
+</li>
+<li>We want to install the Gtest library so that our tests can use it.
+<ul>
+<li>This supports goal number 1. To link the test against the GTest library, we need to have it installed and integrated into our build system somehow.</li>
+<li>The tutorial uses some magic inside of its CMakeLists.txt file to download the GTest library and put it somewhere that the build system can use to link tests to.</li>
+</ul>
+</li>
+<li>We want a single build system that can both build the tests and the main application.
+<ul>
+<li>Why have a single build system?
+<ul>
+<li>Simplicity. I want to have as few build scripts as possible in this example repo.</li>
+<li>If this were a commercial project, keeping the build system simple (i.e. well-designed) is going to reduce the ammount of maintenance it needs so you can maximize the time spent on engineering your project.</li>
+</ul>
+</li>
+<li>The linked tutorial guides you to creates a CMake Project to build the tests, and I was too lazy to figure out how to integrate it into the existing Makefile. So I went ahead and ported the Makefile build script to CMake.</li>
+</ul>
+</li>
+</ol>
+<h5 id="verify-gtest-is-working-with-fff">Verify GTest is working with fff</h5>
+<p>Before moving on, I&rsquo;m writing a tiny GTest unit test that includes fff to make sure that the test can link against the GTest library and find the <code>fff.h</code> file in its include path.
+The only purpose of this test is to make sure we installed Gtest and FFF succssfully, so its going to be short, like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;gtest/gtest.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fff.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+TEST(HelloTest, smoke_test_please_compile) {
+  <span style="color:#75715e">// Please compile
+</span><span style="color:#75715e"></span>  EXPECT_EQ(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>);
+}
+</code></pre></div><p>If we can compile this file, then GTest and FFF are integrated correctly, if not, then something is wrong.</p>
+<p>We can do this with these commands:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd app
+cmake . <span style="color:#f92672">&amp;&amp;</span> make <span style="color:#f92672">&amp;&amp;</span> ./snake_test
+</code></pre></div><p>You&rsquo;ll see some output with a percentage bar showing build progress and finally the familiar Gtest output showing that this test suite has passed.</p>
+<pre tabindex="0"><code>[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+</code></pre><p>Also, you might notice that the on the first time running this build, CMake has downloaded the googletest source code to the <code>app/_deps</code> directory and has installed it to the <code>app/lib</code> directory. This is where the build system is going to get the GTest libraries to link against to build our unit tests.</p>
+<h4 id="migrate-snake-app-to-cmake">Migrate snake app to CMake</h4>
+
+<div class="notices note" ><p>Follow along locally with: <code>git checkout 94add88</code><br>
+View online with:  <a href="https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/94add880d8bd121491c2360adcfbfe941565cba0">https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/94add880d8bd121491c2360adcfbfe941565cba0</a></p>
+</div>
+
+<p>This commit moves the snake app&rsquo;s build system to CMake.<br>
+With one source file, and only a few preprocessor defines, it was a pretty straightforwards change.</p>
+<p>You should have both a <code>snake</code> and <code>snake_test</code> binary in your <code>/app</code> directory that will launch the app and unit tests respectively.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd app
+cmake . <span style="color:#f92672">&amp;&amp;</span> make
+</code></pre></div><h4 id="mock-the-conioh-dependency-with-fff">Mock the <code>conio.h</code> Dependency with fff</h4>
+<p>
+<div class="notices note" ><p>Follow along locally with: <code>git checkout c0702d9</code>
+View online with: <a href="https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/c0702d91499d3e2d11b76243f5b0d58ec3d70e68">https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/c0702d91499d3e2d11b76243f5b0d58ec3d70e68</a></p>
+</div>
+
+This is the last step before we&rsquo;re ready to link the <code>snake.o</code> object to the unit test.</p>
+<p>To reiterate We&rsquo;re going to use fff to mock the conio dependency for three reasons:</p>
+<ol>
+<li>We don&rsquo;t want to show the game&rsquo;s graphics on the screen while we&rsquo;re running the unit test.
+<ul>
+<li>This would get in the way of the test results and be a general nuisance. In other situations API functions might do things that would be impossible from the computer running the unit test - like open secure network connections to production servers or interract with embedded hardware.</li>
+</ul>
+</li>
+<li>We still want to be able to compile the application code into the test harness.
+<ul>
+<li>In goal 1, we don&rsquo;t want any conio.h api functions to run, so what if we just tried to compile without the include path to <em>any</em> conio.h? The program wouldn&rsquo;t compile because of undefined symbols to the conio.h API functions. We could write stub functions for each API call in the test harness if this was all we really needed.</li>
+</ul>
+</li>
+<li>We want the tests to be able to <em>sense</em> how the app interracts with the graphics library.
+<ul>
+<li>We&rsquo;re testing to make sure that the function behaves the correct way. We want to make sure its calling these coino.h API functions in the correct way too. This is the biggest benefit of using a mocking library.</li>
+</ul>
+</li>
+</ol>
+<p>In the sample repo, I&rsquo;ve made a mock version of the library in <code>app/test/mock/conio.h</code>. This file has all of the constants copied from <code>conio/conio.h</code>, and declares all of the function-like macro API calls of conio.h so that it can be included in snake.c and there will be no undefined symbols.  The difference is how the function-like macros are defined. <code>mock/conio.h</code>, uses FFF&rsquo;s the <code>FAKE_VALUE_FUNC</code> and <code>FAKE_VOID_FUNC</code> families of macros to declare functions to satisfy conio.h&rsquo;s API calls, but also to define the API functions as fake functions that will track usage.</p>
+<p>Take a look at the implementation of the mock below.
+You can see that each function-like macro that&rsquo;s defined in <code>conio/conio.h</code> (the real libray) is defined by a <code>FAKE_VALUE_FUNC</code> macro. These macros are defined by fff and are used to automatically make mock functions from function signatures.</p>
+<h5 id="testmockconioh">test/mock/conio.h</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#75715e">//...
+</span><span style="color:#75715e"></span><span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Define mocks for all of the function-like macros in conio.h.
+</span><span style="color:#75715e"> */</span>
+FAKE_VALUE_FUNC(<span style="color:#66d9ef">int</span>, clrscr);
+FAKE_VALUE_FUNC(<span style="color:#66d9ef">int</span>, clreol);
+FAKE_VALUE_FUNC(<span style="color:#66d9ef">int</span>, delline);
+FAKE_VALUE_FUNC2(<span style="color:#66d9ef">int</span>, gotoxy, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>);
+FAKE_VOID_FUNC(textattr, <span style="color:#66d9ef">int</span>);
+FAKE_VOID_FUNC(textcolor, <span style="color:#66d9ef">int</span>);
+FAKE_VOID_FUNC(textbackground, <span style="color:#66d9ef">int</span>);
+<span style="color:#75715e">//...
+</span></code></pre></div><hr>
+<h4 id="what-are-those-fff-macros-doing-a-deeper-dive">What are those fff macros doing? A Deeper dive:</h4>
+<p>Lets focus on a single API call for a concrete example: <code>gotoxy(x, y)</code>. This is a function-like macro in conio.h that sets the color of text to write to the screen. If it were defined as a function, it would have a signature like this <code>int gotoxy(int x, int y);</code>.</p>
+<p>The example above uses the line <code>FAKE_VALUE_FUNC2(int, gotoxy, int, int);</code> to make a mock function satisfying that signature. Under the hood in fff.h, that macro expands to create two primary things.</p>
+<ol>
+<li>fff defines a function with the signature <code>int gotoxy(int x, int y);</code> that acts like the <code>conio/conio.h</code> API call for the code under test to use.</li>
+<li>fff creates an instance of a struct called <code>gotoxy_fake</code> (the generic name is <code>function_name</code> + <code>_fake</code>) for the test to use. This struct can be modified to change how the <code>gotoxy()</code> function behaves  during the test. Also, the struct has all sorts of information how the fake was used by the test.</li>
+</ol>
+<h5 id="a-concrete-example-of-how-to-use-the-mock-function-created-by-fff">A concrete example of how to use the mock function created by FFF.</h5>
+<p>Lets define this example function that the app-under-test might have called <code>foo()</code> that makes some conio.h API calls to <code>gotoxy()</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">foo</span>() {
+    gotoxy(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">30</span>);
+    <span style="color:#75715e">//...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> return_val <span style="color:#f92672">=</span> gotoxy(<span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">70</span>);
+    <span style="color:#75715e">//.. do something with return_val
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>Then lets define a sample test that calls the sample function <code>foo()</code> once. Before calling <code>foo()</code>, the test configures how the mocked <code>gotoxy()</code> function will behave. After calling <code>foo()</code> the test verifies that <code>foo()</code> interacted with <code>gotoxy()</code> as expected. We&rsquo;ll leave the actual configuration and verification in placeholders with <code>//...</code>.</p>
+<pre tabindex="0"><code>TEST(ExampleTest, test_foo)
+{
+    // Configure how the mocked version of gotoxy() will behave
+    //   by modifying gotoxy_fake
+    // ...
+    
+    // Call the app under test's function:
+    foo()
+    
+    // Verify how the API was used by reading gotoxy_fake's sense fields.
+    //...
+}
+</code></pre><p>In this example, all of the test configuration and verification happens by interacting with the <code>gotoxy_fake</code> struct that&rsquo;s generated by the FFF. Here&rsquo;s a list of some of the most useful members of this struct &amp; descriptions of what they do.</p>
+<p>Most useful fake struct members:</p>
+<ul>
+<li><code>arg0_val</code>/ <code>arg1_val</code>
+<ul>
+<li>These fields capture the values of the arguments that the fake function was caleld with last.</li>
+<li>After <code>foo()</code> is run, <code>gotoxy_fake.arg0_val</code> will be 50 and <code>gotoxy_fake.arg1_val</code> will be 70.</li>
+</ul>
+</li>
+<li><code>arg0_history</code> / <code>arg1_history</code>
+<ul>
+<li>These fields capture the history of arg values passed to the fake function. By default, they will store up to 50 values before overwriting old values.</li>
+<li>After <code>foo()</code> is run, <code>gotoxy_fake.arg0_history</code> will be equal to <code>{20, 50, 0, 0 ,0, ...}</code> and <code>gotoxy_fake.arg1_history</code> will be equal to <code>{30, 70, 0, 0 ,0, ...}</code>.</li>
+</ul>
+</li>
+<li><code>call_count</code>
+<ul>
+<li>This is a count of how many times the fake function is called.</li>
+<li>After <code>foo()</code> is run, <code>gotoxy_fake.call_count</code> will be 2.</li>
+</ul>
+</li>
+<li><code>return_val</code>
+<ul>
+<li>When the fake function is run, this value is what the fake function returns.</li>
+<li>If <code>gotoxy_fake.return_val</code> is set to -1 before <code>foo()</code> is run, then the variable <code>return_val</code> will be set to -1 in the function.</li>
+</ul>
+</li>
+</ul>
+<p>Here&rsquo;s how some of that configuration and verification might look</p>
+<pre tabindex="0"><code>TEST(ExampleTest, test_foo)
+{
+    // Configure how the mocked version of gotoxy() will behave
+    //   by modifying gotoxy_fake
+    // have gotoxy() return 42
+    gotoxy_fake.return_val = 42;
+    
+    // Call the app under test's function:
+    foo()
+    
+    // Verify how the API was used by reading gotoxy_fake's sense fields.
+    // make sure gotoxy() is called twice
+    EXPECT_EQ(gotoxy_fake.call_count, 2);
+    // make sure the arguments passed to gotoxy() are (20,30) and (50,70) in that order.
+    EXPECT_EQ(gotoxy_fake.arg0_history[0], 20);
+    EXPECT_EQ(gotoxy_fake.arg1_history[0], 30);
+    EXPECT_EQ(gotoxy_fake.arg0_history[1], 50);
+    EXPECT_EQ(gotoxy_fake.arg1_history[1], 70);
+}
+</code></pre><h3 id="a-simple-demo-with-fff-mocking-library-calls">A simple demo with FFF mocking library calls</h3>
+
+<div class="notices note" ><p>Follow along locally with: <code>git checkout 50b0765</code><br>
+View online with: <a href="https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/50b07658445910a18b2a0f45bf382826f4bfb6cf">https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/50b07658445910a18b2a0f45bf382826f4bfb6cf</a></p>
+</div>
+
+<p>This commit creates a test that applies the mocking strategy above to a real function from snake.c app. Take a look at <code>show_score()</code> in snake.c. Its a very simple function that makes a few conio.h API calls then returns unconditionally.</p>
+<p>We&rsquo;ll set up the test case in the same way as before.</p>
+<ol>
+<li>Set up input and mock behavior for the application function.
+<ul>
+<li>In this case, <code>show_score()</code> doesn&rsquo;t do anything with the return value from any API functions, so we don&rsquo;t need to configure any mock behavior.</li>
+</ul>
+</li>
+<li>Call the application function.</li>
+<li>Verify the function behaved as expected through its mock calls.</li>
+</ol>
+<p>Here&rsquo;s how the first test looks off the bat:</p>
+<pre tabindex="0"><code>TEST(MockVerify, show_score_calls_some_API_calls) {
+TEST(MockVerify, show_score_calls_some_API_calls) {
+  /*
+   * Set up input to the show_scores() function
+   */
+  screen_t my_screen;
+  my_screen.level = 1;
+  my_screen.gold = 2;
+  my_screen.score = 3;
+  my_screen.high_score =4;
+  // Call show_scores() which calls some conio.h API functions in its body
+  show_score(&amp;my_screen);
+
+  // We're not going to specify *what* the API functions called were,
+  //   but these EXPECT statements show that at textcolor() and gotoxy() were called
+  //   some non-zero number of times
+  EXPECT_NE(textcolor_fake.call_count, 0);
+  EXPECT_NE(gotoxy_fake.call_count, 0);
+
+  // cleanup fakes after test
+  RESET_FAKE(textcolor);
+  RESET_FAKE(gotoxy);
+</code></pre><p>Is the <code>show_score()</code> function suited for unit testing? And is this test <em>good</em>? I&rsquo;d answer &ldquo;No&rdquo; and  &ldquo;Absolutely not&rdquo; to those questions respectively.</p>
+<p>However its a start. This test does show how the GTest <code>EXPECT_</code> macros and FFF fake structures can be combined to verify how a real application function uses a library API call.</p>
+<h3 id="unit-testing-a-function-with-no-library-api-calls">Unit testing a function with no library API calls</h3>
+
+<div class="notices note" ><p>Follow along locally with: <code>git checkout 35959c9</code><br>
+View online with: <a href="https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/35959c917ca1888a5111ece07c6bf6b52fb98196">https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/35959c917ca1888a5111ece07c6bf6b52fb98196</a></p>
+</div>
+
+<p>I&rsquo;m adding this example to be thorough and show a little more of how to use GTest. Not all unit test cases need to use mocks to configure and verify behavior.</p>
+<p>This commit introduces a test suite to test <code>eat_gold ()</code>.</p>
+<p>Take a look at the implementation of this function in snake.c below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">eat_gold</span> (snake_t <span style="color:#f92672">*</span>snake, screen_t <span style="color:#f92672">*</span>screen)
+{
+   snake_segment_t <span style="color:#f92672">*</span>head <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>snake<span style="color:#f92672">-&gt;</span>body[snake<span style="color:#f92672">-&gt;</span>len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+
+   <span style="color:#75715e">/* We&#39;re called after collide_object() so we know it&#39;s
+</span><span style="color:#75715e">    * a piece of gold at this position.  Eat it up! */</span>
+   screen<span style="color:#f92672">-&gt;</span>grid[head<span style="color:#f92672">-&gt;</span>row <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][head<span style="color:#f92672">-&gt;</span>col <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39; &#39;</span>;
+
+   screen<span style="color:#f92672">-&gt;</span>gold<span style="color:#f92672">--</span>;
+   screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">+=</span> snake<span style="color:#f92672">-&gt;</span>len <span style="color:#f92672">*</span> screen<span style="color:#f92672">-&gt;</span>obstacles;
+   snake<span style="color:#f92672">-&gt;</span>len<span style="color:#f92672">++</span>;
+
+   <span style="color:#66d9ef">if</span> (screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">&gt;</span> screen<span style="color:#f92672">-&gt;</span>high_score)
+   {
+      screen<span style="color:#f92672">-&gt;</span>high_score <span style="color:#f92672">=</span> screen<span style="color:#f92672">-&gt;</span>score; <span style="color:#75715e">/* New high score! */</span>
+   }
+
+   <span style="color:#66d9ef">return</span> screen<span style="color:#f92672">-&gt;</span>gold;
+}
+</code></pre></div><p>Note that there are no other functions called from <code>eat_gold()</code>, including API calls, so we don&rsquo;t need to use fff to configure or verify this function.</p>
+<p>We can sense how this function behaves in two different ways:</p>
+<ol>
+<li>based on its <code>int</code> return value</li>
+<li>based on how it modifies its parameters, <code>snake</code> and <code>screen</code>.</li>
+</ol>
+<p>We can configure this function in only one way:</p>
+<ol>
+<li>By deliberately crafting its input parameters.</li>
+</ol>
+<p>In some ways, this function is more simple to test than <code>show_score()</code> was. There are no dependencies to mock.</p>
+<p>However, take a look at the definition for the structs of the parameter types <code>snake_t</code> and  <code>screen_t</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span>
+{
+   <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>    speed;
+   direction_t     dir;
+
+   <span style="color:#66d9ef">int</span>             len;
+   snake_segment_t body[<span style="color:#ae81ff">100</span>];
+} snake_t;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span>
+{
+   <span style="color:#66d9ef">int</span> level;
+   <span style="color:#66d9ef">int</span> score;
+   <span style="color:#66d9ef">int</span> high_score;
+   <span style="color:#66d9ef">int</span> gold;
+   <span style="color:#66d9ef">int</span> obstacles;
+
+   <span style="color:#66d9ef">char</span> grid[MAXROW][MAXCOL];
+} screen_t;
+</code></pre></div><p>Each of these structs has a lot of data. <code>snake_t</code> has members that are other structs. If we&rsquo;re only able to configure this function by deliberately crafting the input parameters, then we&rsquo;ll have to do a good amount of work to build these structs correctly.
+Since the function communicates output by modifying its parameters, we&rsquo;re also going to have to do work to verify the relevant fields of those structs as output.</p>
+<p>Thankfully, this function doesn&rsquo;t have many branching control flow. There&rsquo;s only one <code>if</code> statement in the function body.</p>
+<p>As a first step to decide what to test, it can be helpful to describe what the function does in simple English statements.</p>
+<ul>
+<li><code>eat_gold()</code> updates the <code>grid</code> <code>gold</code> <code>score</code> and <code>len</code> field of the <code>screen</code> parameter when called.</li>
+<li>If the <code>score</code> field is higher than the <code>high_score</code> field, then <code>eat_gold()</code> also updates the <code>high_score</code> field of <code>screen</code></li>
+<li><code>eat_gold()</code> always returns the updated <code>gold</code> field of the <code>screen</code> parameter</li>
+<li><code>eat_gold()</code> increases the <code>len</code> field of the <code>snake</code> parameter by one every time it is called.</li>
+</ul>
+<p>I can then take that description of what the function does, and plan it out into different test cases to cover the basic operation of the function.</p>
+<ol>
+<li>Test that the return value is equal to the screen&rsquo;s gold after the test is run.</li>
+<li>Test that the screen&rsquo;s parameters are changed as expected during normal conditions.</li>
+<li>Test that the screen&rsquo;s parameters are changed as expected when a high score update is expected.</li>
+<li>Test that the snake&rsquo;s state is changed as expected.</li>
+</ol>
+<h5 id="cutting-down-on-duplication-setup-with-gtest-fixtures">Cutting down on duplication setup with GTest Fixtures</h5>
+<p>Int the step above, it made sense to build 4 test cases for this function.</p>
+<p>Instead of copying and pasting common initialization code, we can use GTest <em>fixtures</em> to share common configuration for each test case that&rsquo;s going to test this function.</p>
+<p>A text fixture lets you define data, setup/teardown and other common functions between a suite of tests.</p>
+<p>In the words of the GTest docs, here&rsquo;s when to use a test fixture:</p>
+<blockquote>
+<p>If you find yourself writing two or more tests that operate on similar data, you can use a test fixture. This allows you to reuse the same configuration of objects for several different tests.</p>
+</blockquote>
+<p>I find myself using these liberally in unit tests that involve anything beyond a simple pure function.</p>
+<p>For these specific 4 test cases, I&rsquo;m going to define a test fixture that defines two objects of the function&rsquo;s parameter types (<code>snake_t m_snake</code> and <code>screen_t m_screen</code>) and then initializes them into a common state so that individual test cases have to modify them as little as possible.</p>
+<p>For full details on all the bells and whistles that test fixtures can provide, see the docs: <a href="https://github.com/google/googletest/blob/master/docs/primer.md#test-fixtures-using-the-same-data-configuration-for-multiple-tests-same-data-multiple-tests">https://github.com/google/googletest/blob/master/docs/primer.md#test-fixtures-using-the-same-data-configuration-for-multiple-tests-same-data-multiple-tests</a></p>
+<h4 id="the-resulting-test-cases">The resulting test cases:</h4>
+<p>These next sections are a walkthrough of the major components of these tests.</p>
+<h5 id="test-fixture-eatgoldtest">Test Fixture EatGoldTest</h5>
+<p>Below is the definition of the test fixture in full.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EatGoldTest</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> <span style="color:#f92672">::</span>testing<span style="color:#f92672">::</span>Test
+{
+<span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+  snake_t m_snake;
+  screen_t m_screen;
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+
+  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SNAKE_POS_X <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SNAKE_POS_Y <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SNAKE_LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> SCREEN_FILLER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;X&#39;</span>;
+  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> SCREEN_BLANK <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39; &#39;</span>;
+  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_GOLD <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_SCORE <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_HI_SCORE <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>;
+  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_OBSTACLES <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+
+  EatGoldTest() {
+    <span style="color:#75715e">/// set up snake
+</span><span style="color:#75715e"></span>    m_snake.len <span style="color:#f92672">=</span> SNAKE_LEN;
+    m_snake.body[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> {SNAKE_POS_X, SNAKE_POS_Y};
+
+    <span style="color:#75715e">/// set up screen
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// fill screen up with filler to detect no-change in other spaces
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>){
+      <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>){
+        m_screen.grid[row][col] <span style="color:#f92672">=</span> SCREEN_FILLER;
+      }
+    }
+    m_screen.gold <span style="color:#f92672">=</span> SCREEN_GOLD;
+    m_screen.score <span style="color:#f92672">=</span> SCREEN_SCORE;
+    m_screen.high_score <span style="color:#f92672">=</span> SCREEN_HI_SCORE;
+    m_screen.obstacles <span style="color:#f92672">=</span> SCREEN_OBSTACLES;
+  }
+};
+</code></pre></div><p>This test fixture uses these three things at a high level</p>
+<ol>
+<li>Defines shared variables
+<ul>
+<li><code>m_snake</code> and <code>m_screen</code> are variables that can be accessed from unit tests that use this fixture.</li>
+</ul>
+</li>
+<li>Defines constants
+<ul>
+<li>all of these const declarations like <code>const int SCREEN_GOLD</code> share information about the default state of the</li>
+</ul>
+</li>
+<li>Defines those variables in a shared constructor.
+<ul>
+<li>A separate instance of this object gets created before every related test case runs. I put the initialization code into the fixture&rsquo;s constructor so that whatever initialization has to run is completed before the test logic runs.</li>
+</ul>
+</li>
+</ol>
+<h5 id="test-return-code">Test return code</h5>
+<p>Now that we&rsquo;ve looked at the fixture definition, lets look at the first test case that uses this fixture.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++">TEST_F(EatGoldTest, test_eat_gold_return_value_is_correct)
+{
+  <span style="color:#75715e">/* Given: default screen &amp; snake*/</span>
+  <span style="color:#75715e">/* When */</span>
+  <span style="color:#66d9ef">int</span> ret <span style="color:#f92672">=</span> eat_gold(<span style="color:#f92672">&amp;</span>m_snake, <span style="color:#f92672">&amp;</span>m_screen);
+  <span style="color:#75715e">/* Then */</span>
+  <span style="color:#75715e">// decrement gold count
+</span><span style="color:#75715e"></span>  ASSERT_EQ(ret, m_screen.gold);
+}
+</code></pre></div><p>This is all we need. Most of the lines are comments. We don&rsquo;t have to do any of the work to set up <code>m_screen</code> or <code>m_snake</code> because that&rsquo;s been done in the fixture constructor.</p>
+<p>This test verifies that when passed the default <code>m_screen</code> object created by the fixture, <code>eat_gold()</code> returns the new value of <code>m_screen.gold</code>, and nothing else.</p>
+<p>Its tempting to try to have one unit test validate as much as possible, but I believe that if each test has a descriptive name and tests one thing, then its easier to figure out what&rsquo;s wrong when something bad happens.</p>
+<p>For example, if I change <code>return screen-&gt;gold;</code> in <code>eat_gold()</code> to <code>return 7;</code> Here&rsquo;s what the summary output of the test suite would look like:</p>
+<pre tabindex="0"><code class="language-GTest" data-lang="GTest">[==========] 7 tests from 3 test suites ran. (2 ms total)
+[  PASSED  ] 6 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] EatGoldTest.test_eat_gold_return_value_is_correct
+</code></pre><p>Then it is very clear that something is wrong with <em>only</em> this function&rsquo;s return value and none of the other behavior.</p>
+<h5 id="test-screen-modification">Test Screen modification</h5>
+<p>Lets look at a more complicated test case, like this test that checks that <code>eat_gold()</code> modifies <code>m_screen</code> correctly in a scenario that doesn&rsquo;t involve a high score update.</p>
+<p>Looking at the <code>eat_gold()</code> function, we can break down what we expect the function to change in the screen structure. Here&rsquo;s my expectations of how <code>eat_gold()</code> modifies the <code>m_screen</code> object broken down into four statements in English.</p>
+<ul>
+<li>It should replace the grid element at the snake&rsquo;s head position with a <code>' '</code> character (and modify no other grid spaces)</li>
+<li>It should decrease the <code>screen.gold</code> value by 1</li>
+<li>It should increase the <code>screen.score</code> value by however much this piece of gold was worth.</li>
+<li>It should not increase the <code>screen.high_score</code> member unless the score is greater than the previous high score.</li>
+</ul>
+<p>Here&rsquo;s how this test case verifies each of those statements in C++.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++">TEST_F(EatGoldTest, test_eat_gold_modifies_screen_correctly)
+{
+  <span style="color:#75715e">/* Given: default screen &amp; snake*/</span>
+  <span style="color:#75715e">/* When */</span>
+  eat_gold(<span style="color:#f92672">&amp;</span>m_snake, <span style="color:#f92672">&amp;</span>m_screen);
+  <span style="color:#75715e">/* Then */</span>
+  <span style="color:#75715e">// blank out the head of the snake on the screen
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>){
+    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>){
+      <span style="color:#66d9ef">if</span>(row <span style="color:#f92672">==</span> SNAKE_POS_X <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> col <span style="color:#f92672">==</span> SNAKE_POS_Y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+      {
+        ASSERT_EQ(m_screen.grid[row][col], SCREEN_BLANK);
+      }
+      <span style="color:#66d9ef">else</span>
+      {
+        ASSERT_EQ(m_screen.grid[row][col], SCREEN_FILLER);
+      }
+    }
+  }
+
+  <span style="color:#75715e">// decrement gold count
+</span><span style="color:#75715e"></span>  ASSERT_EQ(m_screen.gold, SCREEN_GOLD <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+
+  <span style="color:#75715e">// increase score but not hi score
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">int</span> score_increment <span style="color:#f92672">=</span> SNAKE_LEN <span style="color:#f92672">*</span> SCREEN_OBSTACLES;
+  ASSERT_EQ(m_screen.score, SCREEN_SCORE <span style="color:#f92672">+</span> score_increment);
+  ASSERT_EQ(m_screen.high_score, SCREEN_HI_SCORE);
+}
+</code></pre></div><p>See the companion repo for the other two test cases.</p>
+<h4 id="are-these-test-cases-enough">Are these test cases enough?</h4>
+<p>I think it depends. These tests give enough coverage so that way an engineer could either add features or refactor the code with confidence that they wouldn&rsquo;t introduce a regression bug.</p>
+<p>I definitely don&rsquo;t think these tests cover all failure modes for the function though. If this code wasn&rsquo;t in a <code>snake</code> game, but was being certified in an airplane&rsquo;s flight control computer, then it would need a whole lot more &ldquo;robustness tests&rdquo; to cover how the function responds to unexpected input.</p>
+<p>For example, what would happen when <code>screen.gold</code> is 0 when <code>eat_gold()</code> is called?
+The <code>screen-&gt;gold--;</code> statement would execute and now <code>screen.gold</code> would be -1 and the function would return -1.
+From the rest of the code, its clear that this condition is not meant to happen. So how should the function handle it?</p>
+<ul>
+<li>If robustness testing is an issue on your project, then that question should be answered in the software requirements document.</li>
+<li>This is worth mentioning for thoroughness, but testing at that level of robustness is out of scope for this page.</li>
+</ul>
+<h3 id="recap">Recap</h3>
+<p>So by now, you&rsquo;ve seen the what has to change to get a legacy C app into a unit test harness. We had to break the dependency on the app&rsquo;s third party library, integrate GTest and fff into the build system, write a mock version of the dependency with fff then write some trivial unit tests on functions in the main app.</p>
+
+
+<footer class="footline">
+	
+</footer>
+
+        
+        </div>
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/posts/" title="Posts"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+	
+    </div>
+
+    </section>
+
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1638306476"></script>
+    <script src="/js/perfect-scrollbar.min.js?1638306476"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1638306476"></script>
+    <script src="/js/jquery.sticky.js?1638306476"></script>
+    <script src="/js/featherlight.min.js?1638306476"></script>
+    <script src="/js/highlight.pack.js?1638306476"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1638306476"></script>
+    <script src="/js/learn.js?1638306476"></script>
+    <script src="/js/hugo-learn.js?1638306476"></script>
+    
+        
+            <script src="/mermaid/mermaid.js?1638306476"></script>
+        
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+    
+    
+
+  </body>
+</html>
+

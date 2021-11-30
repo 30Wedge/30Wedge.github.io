@@ -7,13 +7,6 @@
 	"content": "Hello index.md "
 },
 {
-	"uri": "http://example.org/posts/first-post/",
-	"title": "First Post",
-	"tags": [],
-	"description": "",
-	"content": "Hello world - pt 2 Testing code highlighting:\nclass foo{ int a; }; "
-},
-{
 	"uri": "http://example.org/posts/",
 	"title": "Posts",
 	"tags": [],
