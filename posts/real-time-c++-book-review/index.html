@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.123.7">
+    <meta name="description" content="">
+
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Real Time C&#43;&#43; Book Review :: Andy MacGregor&#39;s blog - Articles on embedded software development</title>
+
+    
+    <link href="/css/nucleus.css?1747946424" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1747946424" rel="stylesheet">
+    <link href="/css/hybrid.css?1747946424" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1747946424" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1747946424" rel="stylesheet">
+    <link href="/css/auto-complete.css?1747946424" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1747946424" rel="stylesheet">
+    <link href="/css/theme.css?1747946424" rel="stylesheet">
+    <link href="/css/tabs.css?1747946424" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1747946424" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1747946424"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/posts/real-time-c&#43;&#43;-book-review/">
+    <nav id="sidebar" class="">
+
+
+
+  <div id="header-wrapper">
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1747946424"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1747946424"></script>
+<script type="text/javascript">
+    
+        var baseurl = "http:\/\/localhost:1313\/";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1747946424"></script>
+
+    
+  </div>
+  
+    <section id="homelinks">
+      <ul>
+        <li>
+            <a class="padding" href='/'><i class='fas fa-home'></i> Home</a>
+        </li>
+      </ul>
+    </section>
+  
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/posts/" title="Posts" class="dd-item
+        parent
+        
+        
+        ">
+      <a href="/posts/">
+          Posts
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/posts/real-time-c&#43;&#43;-book-review/" title="Real Time C&#43;&#43; Book Review" class="dd-item active">
+        <a href="/posts/real-time-c&#43;&#43;-book-review/">
+        Real Time C&#43;&#43; Book Review
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/posts/adding_unit_tests_to_legacy_code/" title="Adding Unit Tests to Legacy C Code with GTest and FFF" class="dd-item ">
+        <a href="/posts/adding_unit_tests_to_legacy_code/">
+        Adding Unit Tests to Legacy C Code with GTest and FFF
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+      
+    </li>
+  
+ 
+
+          
+        
+    </ul>
+
+    
+    
+
+    
+    <section id="footer">
+      <p>Built with <a href="https://github.com/matcornic/hugo-theme-learn"><i class="fas fa-heart"></i></a> from <a href="https://getgrav.org">Grav</a> and <a href="https://gohugo.io/">Hugo</a></p>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>Andy MacGregor</a> > <a href='/posts/'>Posts</a> > Real Time C++ Book Review
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#part-1---language-technologies-for-real-time-c">Part 1 - Language Technologies for Real-Time C++</a></li>
+    <li><a href="#part-2---components-for-real-time-c">Part 2 - Components for Real-Time C++</a></li>
+    <li><a href="#part-3--appendices---mathematics-and-utilities-for-real-time-c">Part 3 + Appendices - Mathematics and Utilities for Real-Time C++</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Real Time C&#43;&#43; Book Review
+            </h1>
+          
+
+        
+
+
+<h2 id="summary">Summary</h2>
+<p>&ldquo;Real-Time C++&rdquo; by Christopher Kormanyos <a href="#references">[1]</a>, is one of the rare
+intermediate level books for embedded software. It assumes that the
+reader has foundational knowledge in both C++ and microcontroller (MCU)
+programming. Given a foundation in both subjects, I think that reading this
+book can effectively put some new techniques in the reader&rsquo;s tool belt. Context
+awareness and critical thinking will help a good reader to get the most out of
+this book.</p>
+<p>Kormanyos is an expert at writing portable math software. From his github
+account alone <a href="#references">[2]</a>, you can see that he&rsquo;s published a number of
+his own C++ math implementations and contributed to high profile projects like
+Boost. In this book, he works with a very narrow meaning of the famously
+nebulous <a href="#references">[3]</a> term &ldquo;real-time software&rdquo;: low latency math-heavy
+computation enabled by clever algorithms. As a result, the 3 parts of the book
+cumulatively build up a technical understanding in order to write clever
+math-heavy algorithms. He follows up efficiency claims with time and program
+space measurements, which is excellent. Mathematical reasoning is laid out in a
+series of equations like a math textbook. These are the strongest aspects of
+the book. However some of the C++ wizardry that enables these high performance
+algorithms come with subtle and serious design tradeoffs which might not be
+suitable for other types of &ldquo;real-time software.&rdquo; These aren&rsquo;t going to be
+obvious to all readers and often aren&rsquo;t explained in the book. For example,
+when given some out of bounds data, some of the functions listed will happy
+return a wildly incorrect result. I would have liked to swap out the few
+chapters on multitasking (which could be a whole separate book) for chapters on
+bounds checking and error handling. Perhaps discussing those tradeoffs are
+genuinely out of scope of the book.</p>
+<h2 id="part-1---language-technologies-for-real-time-c">Part 1 - Language Technologies for Real-Time C++</h2>
+<p>This part of the book rattles off foundational topics in C++, embedded software
+and performance-oriented software. I think this section should be read like a
+grocery list to make sure that you have what you need before you start cooking
+your meal in parts 2 and 3. Much of the section reads like the following:</p>
+<ol>
+<li>Introduce a C++ feature.</li>
+<li>One or two code samples to showcase the feature.</li>
+<li>A few paragraphs with a declarative description of the feature.</li>
+</ol>
+<p>Read through each sample code and make sure you understand exactly what&rsquo;s going
+on. Odds are that if there&rsquo;s something in a sample that you don&rsquo;t understand,
+then you can get a working knowledge of the feature from the chapter text
+alone, but you&rsquo;ll need an external reference to really grok the feature.</p>
+<p>I first read this book as a junior engineer with solid embedded skills and weak
+C++ skills; so this helped me fill some knowledge gaps. Unnamed namespaces
+<a href="#references">[4]</a>, <code>static_assert</code> <a href="#references">[5]</a> and
+<code>std::chrono_literals</code> <a href="#references">[6]</a> are a few of the language features I
+picked up from this book. Later on I read a much more thorough book on C++
+<a href="#references">[7]</a>, which I&rsquo;d now recommend doing <em>before</em> reading &ldquo;Real-Time
+C++.&rdquo; There are pitfalls that new and experienced C++ programmers can fall into
+without paying close attention, that aren&rsquo;t well marked. And some sections can
+mix objective and subjective statements when describing a feature. When
+combined as a whole, these have the potential to lead a junior developer to
+draw the wrong conclusions and make an absolute mess of the codebase. For
+example: Section 6.8 &ldquo;Use Comments Sparingly&rdquo; (subjective) combined with
+Section 6.20 &ldquo;Use Template Metaprogramming to Unroll Loops&rdquo; (one big footgun)
+makes me quite wary. Especially since the book doesn&rsquo;t mention that often
+compilers have <code>#pragma unroll</code> directives that can perform the same function
+in a single line without giving SFINAE a thought.</p>
+<p>Kormanyos&rsquo;s recommendations are pretty sound for writing performant code.
+Section 4.5 addresses the myth that virtual functions have a high performance
+hit with a level head. In general they&rsquo;re fine, but he acknowledges cases where
+their slight overhead might still be too much. Chapter 6 then lists some
+generally good tools for performance programming that could be categorized into
+the following bins:</p>
+<ol>
+<li>Measure your code.</li>
+<li>Do as little computation at runtime as possible.</li>
+<li>Tailor your code to your hardware.</li>
+<li>Give your compiler what it needs to generate optimized code.</li>
+</ol>
+<p>&ldquo;Measurement&rdquo; breaks down into measuring the runtime of your code, as well as
+studying the compiler&rsquo;s generated assembly and RAM/ROM usage. Throughout the
+book, efficiency claims are backed up by tables showing runtime and memory
+usage on different target hardware. IMO I think the ability to run your own
+performance experiments like this is the most important software performance
+skill to have. You can test any performance claim with hard proof; plus
+experiments enable future learning. Kormanyos gets into the nitty gritties in
+how and why to measure runtime in Section 9.6.</p>
+<p>Tools to reduce work at runtime encompass C++ techniques like <code>constexpr</code> as
+well as making good big-O algorithm choices. I appreciate some especially
+embedded-focused techniques like using bitshifts instead of
+multiplication/division if possible.</p>
+<p>Hardware-specific optimization techniques are centered around processor
+capabilities. For example, 64-bit integer operations are going to be a lot more
+expensive on an 8-bit processor than a 64-bit processor. I think this section
+does a good job assigning relative importance to each technique and pruning
+extraneous information. For example, it can be tempting to think that
+hand-written assembly will make your program faster, but this section stresses
+that this should only be a last resort after making other easier changes (like
+compiler flags, algorithm choice, etc.).</p>
+<h2 id="part-2---components-for-real-time-c">Part 2 - Components for Real-Time C++</h2>
+<p>Part 2 moves above language fundamentals and moves into writing idiomatic C++
+building blocks for embedded code. Throughout this part of the book, the
+content becomes more abstract. This helps showcase real applications for these
+C++ features which is helpful to see uses for them in action in real embedded
+code. Korymanyos writes out implementations of the &ldquo;MCAL&rdquo; (MicroController
+Abstraction Layer) interface that gets referenced throughout the book. He cites the
+AUTOSAR standards <a href="#references">[8]</a> for inspiration, which is practical for
+industry experience. If you&rsquo;re not satisfied, then I&rsquo;ve found loads of similar
+code for reference reference <a href="#references">[9]</a>.</p>
+<p>Like all nontrivial abstractions, the components in this part come with implied
+usage constraints and leak implementation details<a href="#references">[10]</a>. The chapters
+don&rsquo;t have a lot of discussion about what information &ldquo;leaks&rdquo; through the
+abstraction and the constraints that come with each example. That being said, I
+think that&rsquo;s OK to leave those thoughts to reader, and focus the book on
+showcasing embedded C++ code in action.</p>
+<p>I was especially interested in Chapter 7 &ndash; using C++ features for better
+type-controlled register accesses. With the right abstraction, there&rsquo;s a lot of
+room for improvement on register access in C++ over C!</p>
+<p>Chapter 9 is especially useful to read too, because it shows an implementation
+of an object-oriented SPI interface and its integration in a low-overhead ISR.
+Again, the listed code relies on some implicit assumptions that aren&rsquo;t laid out
+ad nauseum, but that&rsquo;s okay. This was the first time I&rsquo;ve seen a real use for a
+<code>friend</code> function declaration. Doing so allows the ISR to access class-private
+members directly instead of through function interfaces that prevent the
+compiler from keeping the ISR tightly optimized.</p>
+<h2 id="part-3--appendices---mathematics-and-utilities-for-real-time-c">Part 3 + Appendices - Mathematics and Utilities for Real-Time C++</h2>
+<p>Part 3 gets interesting with deep dives into heavy hitting math, as well as a
+step-by-step guide to extend the standard library. After a short introduction
+to floating point numbers, the first chapter quickly gets into math that goes
+over my head. I had never heard of the &ldquo;Cylindrical Bessel Function&rdquo; before
+reading this chapter, but here it shows how to solve one in C++.</p>
+<p>Reading in between the lines of impressive mathematics will get you a general
+approach to calculate these fancy functions with some performance-mindedness.
+Each function is going to have competing constraints of precision, runtime and
+code size. Compile-time computation, Taylor series and other approximation
+techniques in the chapter are tools that can help bring down the run time.
+FPU-enabled hardware can only help bring down runtime (at the expense of
+hardware cost). One interesting gotchya is how sometimes math techniques can
+simplify a complex function to a recursive function. Then it can be a
+competitive design choice for the engineer to decide whether its better to
+implement a function <code>f(x)</code> with an <code>O(1)</code> algorithm that longer for most
+values of <code>x</code>, or with a recursive function that is <code>O(N)</code> where runtimes scale
+with the input.</p>
+<p>I only have two criticisms in the math chapters: 1. is what I mentioned in the
+introduction, that there&rsquo;s only a small mention of how to handle arguments out
+of range, because int the projects I&rsquo;ve worked its been pretty important to
+guarantee a function&rsquo;s correctness. And 2. some of the listings use a very
+terse, clever, mathematical coding style that I don&rsquo;t like. I realize brevity
+helps it fit into a printed page, but IMO when working with others this kind of
+code can become a liability if its not well documented <em>why</em> its written like
+this. For example I counted a single line of code in Section 13.4 that
+initializes a variable with a very complex expression containing 21 operators.</p>
+<p>One of the chapters in this section covers how to write or extend the STL. It
+turns out there&rsquo;s a <em>lot</em> required to write a STL-conformant container class.
+The listing with the header definition for a custom class gets quite clunky
+since it spans 3 pages in my print book. However I was impressed by Kormanyos&rsquo;s
+ability to cover what&rsquo;s important. This part of the book certainly benefits
+from his contributions to Boost.</p>
+<p>The appendices go back to Part 1&rsquo;s style of a cursory tour of C++ features.
+Its good for getting a lay of the of the land, but not necessarily to master a
+features. For example, Appendix A lists all 4 types of casts in C++, but
+doesn&rsquo;t explain more than that they&rsquo;re different.</p>
+<p>Anyways, if you&rsquo;ve read this much of my rambling, then you might as well go buy
+the book and read it yourself. Its ambitious enough to be worth a read, and
+hopefully you have the critical thinking skills to consider its flaws and the
+overall larger pictures.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>[1] &ldquo;Real-Time C++: Efficient Object-Oriented and Template Microcontroller Programming&rdquo;, 3rd edition, by Christopher Kormanyos <a href="https://link.springer.com/book/10.1007/978-3-662-62996-3">https://link.springer.com/book/10.1007/978-3-662-62996-3</a></li>
+<li>[2] <a href="https://github.com/ckormanyos">https://github.com/ckormanyos</a></li>
+<li>[3] Jack Ganssle on &ldquo;Real Time Programming&rdquo; in the 90&rsquo;s <a href="https://www.ganssle.com/articles/realtime.htm">https://www.ganssle.com/articles/realtime.htm</a></li>
+<li>[4] C++ Unnamed namespaces <a href="https://en.cppreference.com/w/cpp/language/namespace#Unnamed_namespaces">https://en.cppreference.com/w/cpp/language/namespace#Unnamed_namespaces</a></li>
+<li>[5] C++ <code>static_assert()</code> <a href="https://en.cppreference.com/w/cpp/language/static_assert">https://en.cppreference.com/w/cpp/language/static_assert</a></li>
+<li>[6] C++ <code>std::chrono_literals</code> <a href="https://en.cppreference.com/w/cpp/chrono/operator%22%22s">https://en.cppreference.com/w/cpp/chrono/operator%22%22s</a></li>
+<li>[7] &ldquo;Professional C++&rdquo;, by Mark Gregoire <a href="https://www.wiley.com/en-us/Professional+C%2B%2B%2C+5th+Edition-p-9781119695547">https://www.wiley.com/en-us/Professional+C%2B%2B%2C+5th+Edition-p-9781119695547</a></li>
+<li>[8] AUTOSAR Classic-platform <a href="https://www.autosar.org/standards/classic-platform">https://www.autosar.org/standards/classic-platform</a></li>
+<li>[9] Serenity-OS &ldquo;AK&rdquo; C++ utilities <a href="https://github.com/SerenityOS/serenity/tree/master/AK">https://github.com/SerenityOS/serenity/tree/master/AK</a></li>
+<li>[10] &ldquo;The Law of Leaky Abstractions&rdquo;, Joel Spolsky <a href="https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/">https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/</a></li>
+<li>[11] Godbolt <a href="https://godbolt.org/">https://godbolt.org/</a></li>
+</ul>
+
+
+<footer class="footline">
+	
+</footer>
+
+        
+        </div>
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/posts/" title="Posts"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/posts/adding_unit_tests_to_legacy_code/" title="Adding Unit Tests to Legacy C Code with GTest and FFF" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1747946424"></script>
+    <script src="/js/perfect-scrollbar.min.js?1747946424"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1747946424"></script>
+    <script src="/js/jquery.sticky.js?1747946424"></script>
+    <script src="/js/featherlight.min.js?1747946424"></script>
+    <script src="/js/highlight.pack.js?1747946424"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1747946424"></script>
+    <script src="/js/learn.js?1747946424"></script>
+    <script src="/js/hugo-learn.js?1747946424"></script>
+    
+        
+            <script src="/mermaid/mermaid.js?1747946424"></script>
+        
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+    
+    
+
+  </body>
+</html>
+

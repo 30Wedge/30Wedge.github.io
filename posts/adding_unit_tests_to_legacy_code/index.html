@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" class="js csstransforms3d">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="Hugo 0.89.4" />
+    <meta name="generator" content="Hugo 0.123.7">
     <meta name="description" content="">
 
 
@@ -12,20 +12,20 @@
     <title>Adding Unit Tests to Legacy C Code with GTest and FFF :: Andy MacGregor&#39;s blog - Articles on embedded software development</title>
 
     
-    <link href="/css/nucleus.css?1639759727" rel="stylesheet">
-    <link href="/css/fontawesome-all.min.css?1639759727" rel="stylesheet">
-    <link href="/css/hybrid.css?1639759727" rel="stylesheet">
-    <link href="/css/featherlight.min.css?1639759727" rel="stylesheet">
-    <link href="/css/perfect-scrollbar.min.css?1639759727" rel="stylesheet">
-    <link href="/css/auto-complete.css?1639759727" rel="stylesheet">
-    <link href="/css/atom-one-dark-reasonable.css?1639759727" rel="stylesheet">
-    <link href="/css/theme.css?1639759727" rel="stylesheet">
-    <link href="/css/tabs.css?1639759727" rel="stylesheet">
-    <link href="/css/hugo-theme.css?1639759727" rel="stylesheet">
+    <link href="/css/nucleus.css?1747946424" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1747946424" rel="stylesheet">
+    <link href="/css/hybrid.css?1747946424" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1747946424" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1747946424" rel="stylesheet">
+    <link href="/css/auto-complete.css?1747946424" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1747946424" rel="stylesheet">
+    <link href="/css/theme.css?1747946424" rel="stylesheet">
+    <link href="/css/tabs.css?1747946424" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1747946424" rel="stylesheet">
     
     
 
-    <script src="/js/jquery-3.3.1.min.js?1639759727"></script>
+    <script src="/js/jquery-3.3.1.min.js?1747946424"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -41,12 +41,6 @@
 
 
   <div id="header-wrapper">
-    <div id="header">
-      <a id="logo" href='/'>
-   logo tbd
-</a>
-
-    </div>
     
         <div class="searchbox">
     <label for="search-by"><i class="fas fa-search"></i></label>
@@ -54,14 +48,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="/js/lunr.min.js?1639759727"></script>
-<script type="text/javascript" src="/js/auto-complete.js?1639759727"></script>
+<script type="text/javascript" src="/js/lunr.min.js?1747946424"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1747946424"></script>
 <script type="text/javascript">
     
-        var baseurl = "http:\/\/example.org\/";
+        var baseurl = "http:\/\/localhost:1313\/";
     
 </script>
-<script type="text/javascript" src="/js/search.js?1639759727"></script>
+<script type="text/javascript" src="/js/search.js?1747946424"></script>
 
     
   </div>
@@ -105,6 +99,27 @@
           
 
         
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/posts/real-time-c&#43;&#43;-book-review/" title="Real Time C&#43;&#43; Book Review" class="dd-item ">
+        <a href="/posts/real-time-c&#43;&#43;-book-review/">
+        Real Time C&#43;&#43; Book Review
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
           
             
             
@@ -294,7 +309,7 @@ Within the tests described in this article, we&rsquo;re <em>only</em> going to b
 <p>if Program A requires Program B to be able to run, Program A is dependent on Program B. This makes Program B a dependency of Program A.</p>
 </blockquote>
 <p>In this case, Progam A is our <code>snake</code> app, and Program B is the <code>conio.h</code> library. <code>snake</code> can&rsquo;t run without <code>conio.h</code> so <code>conio.h</code> is a dependency of <code>snake</code>.</p>
-<p><strong>Seam</strong> &ldquo;A seam is a place where you can alter behavior in your program without editing in that place.&rdquo; This is the definition from &ldquo;Working Effectively with Legacy Code' by Robert Martin. For this article, I&rsquo;ll focus on &ldquo;link seams&rdquo; which are places where you can alter the behavior of your program by changing how it is linked at compile time by changing the include path of the build program.</p>
+<p><strong>Seam</strong> &ldquo;A seam is a place where you can alter behavior in your program without editing in that place.&rdquo; This is the definition from &ldquo;Working Effectively with Legacy Code&rsquo; by Robert Martin. For this article, I&rsquo;ll focus on &ldquo;link seams&rdquo; which are places where you can alter the behavior of your program by changing how it is linked at compile time by changing the include path of the build program.</p>
 <h3 id="selecting-the-sample-c-app">Selecting the sample C app</h3>
 <p>I looked far and wide for a piece of open source code to fit the profile for this project, and here&rsquo;s the app I chose: <a href="https://github.com/troglobit/snake">https://github.com/troglobit/snake</a> .</p>
 <p>I&rsquo;m  think its absolutely perfect for this example because</p>
@@ -327,10 +342,10 @@ View online with:  <a href="https://github.com/30Wedge/snake-adding-unit-tests-t
         ├── snake.c
         └── snake.h
 </code></pre><p>You can run these commands to check out what the app does</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd app/src
-make
-./snake
-</code></pre></div><p>As it is now, the code is not structured well for unit testing:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd app/src
+</span></span><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>./snake
+</span></span></code></pre></div><p>As it is now, the code is not structured well for unit testing:</p>
 <ul>
 <li>very few functions are pure without side effects.</li>
 <li>there are very few seams that we can exploit for unit test.</li>
@@ -356,98 +371,98 @@ make
 </ul>
 <p>That&rsquo;s certainly more than a single responsibility! For simplicity of example I&rsquo;m going to focus on the three bolded sections.</p>
 <p>Here&rsquo;s an except of the function, with the bolded sections listed in full, and the rest of the sections replaced with ellipsis.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup_level</span> (screen_t <span style="color:#f92672">*</span>screen, snake_t <span style="color:#f92672">*</span>snake, <span style="color:#66d9ef">int</span> level)
-{
-   <span style="color:#66d9ef">int</span> i, row, col;
-
-   srand ((<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>)time (NULL));
-
-   <span style="color:#75715e">/* Initialize on (re)start */</span>
-   <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> level)
-   {
-      screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-      screen<span style="color:#f92672">-&gt;</span>obstacles <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;
-      screen<span style="color:#f92672">-&gt;</span>level <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-      snake<span style="color:#f92672">-&gt;</span>speed <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>;
-      snake<span style="color:#f92672">-&gt;</span>dir <span style="color:#f92672">=</span> RIGHT;
-   }
-   <span style="color:#66d9ef">else</span>
-   {
-      screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">+=</span> screen<span style="color:#f92672">-&gt;</span>level <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>;
-      screen<span style="color:#f92672">-&gt;</span>obstacles <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>;
-      screen<span style="color:#f92672">-&gt;</span>level<span style="color:#f92672">++</span>;          <span style="color:#75715e">/* add to obstacles */</span>
-
-      <span style="color:#66d9ef">if</span> ((screen<span style="color:#f92672">-&gt;</span>level <span style="color:#f92672">%</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">&amp;&amp;</span> (snake<span style="color:#f92672">-&gt;</span>speed <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>))
-      {
-         snake<span style="color:#f92672">-&gt;</span>speed<span style="color:#f92672">--</span>;        <span style="color:#75715e">/* increase snake-&gt;speed every 5 levels */</span>
-      }
-   }
-
-   <span style="color:#75715e">/* Set up global variables for new level */</span>
-   <span style="color:#75715e">//...
-</span><span style="color:#75715e"></span>
-   <span style="color:#75715e">/* Fill grid with blanks */</span>
-   <span style="color:#75715e">//...
-</span><span style="color:#75715e"></span>
-   <span style="color:#75715e">/* Fill grid with objects */</span>       
-   <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> screen<span style="color:#f92672">-&gt;</span>obstacles <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>)
-   {
-      <span style="color:#75715e">/* Find free space to place an object on. */</span>
-      <span style="color:#66d9ef">do</span>
-      {
-         row <span style="color:#f92672">=</span> rand () <span style="color:#f92672">%</span> MAXROW;
-         col <span style="color:#f92672">=</span> rand () <span style="color:#f92672">%</span> MAXCOL;
-      }
-      <span style="color:#66d9ef">while</span> (screen<span style="color:#f92672">-&gt;</span>grid[row][col] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39; &#39;</span>);
-
-      <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> screen<span style="color:#f92672">-&gt;</span>obstacles)
-      {
-         screen<span style="color:#f92672">-&gt;</span>grid[row][col] <span style="color:#f92672">=</span> CACTUS;
-      }
-      <span style="color:#66d9ef">else</span>
-      {
-         screen<span style="color:#f92672">-&gt;</span>gold<span style="color:#f92672">++</span>;
-         screen<span style="color:#f92672">-&gt;</span>grid[row][col] <span style="color:#f92672">=</span> GOLD;
-      }
-   }
-
-   <span style="color:#75715e">/* Create snake array of length snake-&gt;len */</span>
-   <span style="color:#75715e">//...
-</span><span style="color:#75715e"></span>
-   <span style="color:#75715e">/* Draw playing board */</span>
-   clrscr();
-   draw_line (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>);
-
-   <span style="color:#66d9ef">for</span> (row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>)
-   {
-      gotoxy (<span style="color:#ae81ff">1</span>, row <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
-
-      textcolor (LIGHTBLUE);
-      textbackground (LIGHTBLUE);
-      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
-      textattr (RESETATTR);
-
-      textcolor (WHITE);
-      <span style="color:#66d9ef">for</span> (col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>)
-      {
-         printf (<span style="color:#e6db74">&#34;%c&#34;</span>, screen<span style="color:#f92672">-&gt;</span>grid[row][col]);
-      }
-
-      textcolor (LIGHTBLUE);
-      textbackground (LIGHTBLUE);
-      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
-      textattr (RESETATTR);
-   }
-
-   draw_line (<span style="color:#ae81ff">1</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
-
-   show_score (screen);
-
-   textcolor (LIGHTRED);
-   gotoxy (<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">1</span>);
-   printf (<span style="color:#e6db74">&#34;[ Micro Snake v%s ]&#34;</span>, VERSION);
-}
-</code></pre></div><p>I&rsquo;m going to walk through the steps to make a unit test for this function. First, its helpful to describe what the function does in English, to divine what test cases should be made. I&rsquo;ll start by just trying to test the &ldquo;Draw playing board&rdquo; section, and I&rsquo;ll start by describing what it is doing:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Cpp" data-lang="Cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup_level</span> (screen_t <span style="color:#f92672">*</span>screen, snake_t <span style="color:#f92672">*</span>snake, <span style="color:#66d9ef">int</span> level)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> i, row, col;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   srand ((<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>)time (NULL));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/* Initialize on (re)start */</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> level)
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>      screen<span style="color:#f92672">-&gt;</span>obstacles <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;
+</span></span><span style="display:flex;"><span>      screen<span style="color:#f92672">-&gt;</span>level <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>      snake<span style="color:#f92672">-&gt;</span>speed <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>;
+</span></span><span style="display:flex;"><span>      snake<span style="color:#f92672">-&gt;</span>dir <span style="color:#f92672">=</span> RIGHT;
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">+=</span> screen<span style="color:#f92672">-&gt;</span>level <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>;
+</span></span><span style="display:flex;"><span>      screen<span style="color:#f92672">-&gt;</span>obstacles <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>      screen<span style="color:#f92672">-&gt;</span>level<span style="color:#f92672">++</span>;          <span style="color:#75715e">/* add to obstacles */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> ((screen<span style="color:#f92672">-&gt;</span>level <span style="color:#f92672">%</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">&amp;&amp;</span> (snake<span style="color:#f92672">-&gt;</span>speed <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>         snake<span style="color:#f92672">-&gt;</span>speed<span style="color:#f92672">--</span>;        <span style="color:#75715e">/* increase snake-&gt;speed every 5 levels */</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/* Set up global variables for new level */</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/* Fill grid with blanks */</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/* Fill grid with objects */</span>       
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> screen<span style="color:#f92672">-&gt;</span>obstacles <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">/* Find free space to place an object on. */</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>         row <span style="color:#f92672">=</span> rand () <span style="color:#f92672">%</span> MAXROW;
+</span></span><span style="display:flex;"><span>         col <span style="color:#f92672">=</span> rand () <span style="color:#f92672">%</span> MAXCOL;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">while</span> (screen<span style="color:#f92672">-&gt;</span>grid[row][col] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39; &#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> screen<span style="color:#f92672">-&gt;</span>obstacles)
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>         screen<span style="color:#f92672">-&gt;</span>grid[row][col] <span style="color:#f92672">=</span> CACTUS;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>         screen<span style="color:#f92672">-&gt;</span>gold<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>         screen<span style="color:#f92672">-&gt;</span>grid[row][col] <span style="color:#f92672">=</span> GOLD;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/* Create snake array of length snake-&gt;len */</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/* Draw playing board */</span>
+</span></span><span style="display:flex;"><span>   clrscr();
+</span></span><span style="display:flex;"><span>   draw_line (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">for</span> (row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      gotoxy (<span style="color:#ae81ff">1</span>, row <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      textcolor (LIGHTBLUE);
+</span></span><span style="display:flex;"><span>      textbackground (LIGHTBLUE);
+</span></span><span style="display:flex;"><span>      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
+</span></span><span style="display:flex;"><span>      textattr (RESETATTR);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      textcolor (WHITE);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">for</span> (col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>         printf (<span style="color:#e6db74">&#34;%c&#34;</span>, screen<span style="color:#f92672">-&gt;</span>grid[row][col]);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      textcolor (LIGHTBLUE);
+</span></span><span style="display:flex;"><span>      textbackground (LIGHTBLUE);
+</span></span><span style="display:flex;"><span>      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
+</span></span><span style="display:flex;"><span>      textattr (RESETATTR);
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   draw_line (<span style="color:#ae81ff">1</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   show_score (screen);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   textcolor (LIGHTRED);
+</span></span><span style="display:flex;"><span>   gotoxy (<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>   printf (<span style="color:#e6db74">&#34;[ Micro Snake v%s ]&#34;</span>, VERSION);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>I&rsquo;m going to walk through the steps to make a unit test for this function. First, its helpful to describe what the function does in English, to divine what test cases should be made. I&rsquo;ll start by just trying to test the &ldquo;Draw playing board&rdquo; section, and I&rsquo;ll start by describing what it is doing:</p>
 <p>When <code>setup_level()</code> is called, do the following regardless of the parameters.</p>
 <ol>
 <li>Clear the screen<br>
@@ -468,47 +483,47 @@ If we scroll back up through the code, we can see that <code>screen→obstacles<
 We&rsquo;d have to copy that logic to our test case as well if we&rsquo;re going to initialize an identical grid to verify the function&rsquo;s calls to <code>printf()</code>.</p>
 <p>I&rsquo;m going to stop this thought experiment here. See how the complexity of setting up and verifying this single test case has expanded way beyond the initial description of this section? Its a lot of unnecessary work to copy the grid initialization logic into our test.</p>
 <p>Ff the code was written with the single responsibility principle in mind, so that the function drawing the grid was not also in charge of initializing the grid, we would be having a much easier time. Here&rsquo;s an example implementation:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup_level</span> (screen_t <span style="color:#f92672">*</span>screen, snake_t <span style="color:#f92672">*</span>snake, <span style="color:#66d9ef">int</span> level)
-{
-   <span style="color:#75715e">//...
-</span><span style="color:#75715e"></span>
-   <span style="color:#75715e">/* Draw playing board */</span>
-   draw_initial_board(<span style="color:#f92672">&amp;</span>(screen<span style="color:#f92672">-&gt;</span>grid), screen<span style="color:#f92672">-&gt;</span>score);
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">draw_initial_board</span>( <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> (<span style="color:#f92672">*</span>grid)[MAXROW][MAXCOL], <span style="color:#66d9ef">int</span> score){
-   clrscr(); 
-   draw_line (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>);
-
-   <span style="color:#66d9ef">for</span> (row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>)
-   {
-      gotoxy (<span style="color:#ae81ff">1</span>, row <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
-
-      textcolor (LIGHTBLUE);
-      textbackground (LIGHTBLUE);
-      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
-      textattr (RESETATTR);
-
-      textcolor (WHITE);
-      <span style="color:#66d9ef">for</span> (col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>)
-      {
-         printf (<span style="color:#e6db74">&#34;%c&#34;</span>, (<span style="color:#f92672">*</span>grid)[row][col]);
-      }
-
-      textcolor (LIGHTBLUE);
-      textbackground (LIGHTBLUE);
-      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
-      textattr (RESETATTR);
-   }
-
-   draw_line (<span style="color:#ae81ff">1</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>); 
-   show_score (score);
-
-   textcolor (LIGHTRED);
-   gotoxy (<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">1</span>);
-   printf (<span style="color:#e6db74">&#34;[ Micro Snake v%s ]&#34;</span>, VERSION); 
-}
-</code></pre></div><p>Now we could write a test to verify all of the logic in the &ldquo;Draw playing board&rdquo; section by calling <code>draw_initial_board()</code> directly with a <code>grid</code> that the test case is free to initialize however is easiest. This method skips the unnecessary and brittle work of making sure that the grid is initialized exactly how <code>setup_level()</code> does it.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Cpp" data-lang="Cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setup_level</span> (screen_t <span style="color:#f92672">*</span>screen, snake_t <span style="color:#f92672">*</span>snake, <span style="color:#66d9ef">int</span> level)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/* Draw playing board */</span>
+</span></span><span style="display:flex;"><span>   draw_initial_board(<span style="color:#f92672">&amp;</span>(screen<span style="color:#f92672">-&gt;</span>grid), screen<span style="color:#f92672">-&gt;</span>score);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">draw_initial_board</span>( <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> (<span style="color:#f92672">*</span>grid)[MAXROW][MAXCOL], <span style="color:#66d9ef">int</span> score){
+</span></span><span style="display:flex;"><span>   clrscr(); 
+</span></span><span style="display:flex;"><span>   draw_line (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">for</span> (row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      gotoxy (<span style="color:#ae81ff">1</span>, row <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      textcolor (LIGHTBLUE);
+</span></span><span style="display:flex;"><span>      textbackground (LIGHTBLUE);
+</span></span><span style="display:flex;"><span>      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
+</span></span><span style="display:flex;"><span>      textattr (RESETATTR);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      textcolor (WHITE);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">for</span> (col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>         printf (<span style="color:#e6db74">&#34;%c&#34;</span>, (<span style="color:#f92672">*</span>grid)[row][col]);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      textcolor (LIGHTBLUE);
+</span></span><span style="display:flex;"><span>      textbackground (LIGHTBLUE);
+</span></span><span style="display:flex;"><span>      printf (<span style="color:#e6db74">&#34;|&#34;</span>);
+</span></span><span style="display:flex;"><span>      textattr (RESETATTR);
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   draw_line (<span style="color:#ae81ff">1</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>); 
+</span></span><span style="display:flex;"><span>   show_score (score);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   textcolor (LIGHTRED);
+</span></span><span style="display:flex;"><span>   gotoxy (<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>   printf (<span style="color:#e6db74">&#34;[ Micro Snake v%s ]&#34;</span>, VERSION); 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now we could write a test to verify all of the logic in the &ldquo;Draw playing board&rdquo; section by calling <code>draw_initial_board()</code> directly with a <code>grid</code> that the test case is free to initialize however is easiest. This method skips the unnecessary and brittle work of making sure that the grid is initialized exactly how <code>setup_level()</code> does it.
 Better still - the scope of the parameters to <code>draw_initial_board()</code> has been narrowed down to only pass what the function needs to do its job.</p>
 <p>There are still some unfortunate problems with this example - like how to verify the calls the calls to <code>printf()</code>? and what to do to verify that the <code>show_score()</code>  function was called correctly? (I hand-wavingly simplified its call signature for this example). The next two examples show more pressing problems though:</p>
 <p>The main takeaway here is that <strong>shorter simpler functions are less work to test.</strong></p>
@@ -528,25 +543,25 @@ This is inconvenient, but feasible in this example since <code>show_score()</cod
 <h4 id="illustrating-the-lack-of-seam-with-conioh">Illustrating the lack of seam with conio.h</h4>
 <p>Sticking with this example, lets talk about what a unit test for <code>show_score()</code>  could look like.
 Here&rsquo;s the source of the function under test:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">show_score</span> (screen_t <span style="color:#f92672">*</span>screen)
-{
-   textcolor (LIGHTCYAN);
-   gotoxy (<span style="color:#ae81ff">3</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
-   printf (<span style="color:#e6db74">&#34;Level: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>level);
-
-   textcolor (YELLOW);
-   gotoxy (<span style="color:#ae81ff">21</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
-   printf (<span style="color:#e6db74">&#34;Gold Left: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>gold);
-
-   textcolor (LIGHTGREEN);
-   gotoxy (<span style="color:#ae81ff">43</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
-   printf (<span style="color:#e6db74">&#34;Score: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>score);
-
-   textcolor (LIGHTMAGENTA);
-   gotoxy (<span style="color:#ae81ff">61</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
-   printf (<span style="color:#e6db74">&#34;High Score: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>high_score);
-}
-</code></pre></div><p>There isn&rsquo;t much logic to test! However, we could try making a super simple test case that only verified that calls to the <code>gotoxy()</code> and <code>textcolor()</code> conio.h API functions are made with the right parameters in the right order.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Cpp" data-lang="Cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">show_score</span> (screen_t <span style="color:#f92672">*</span>screen)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   textcolor (LIGHTCYAN);
+</span></span><span style="display:flex;"><span>   gotoxy (<span style="color:#ae81ff">3</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>   printf (<span style="color:#e6db74">&#34;Level: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>level);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   textcolor (YELLOW);
+</span></span><span style="display:flex;"><span>   gotoxy (<span style="color:#ae81ff">21</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>   printf (<span style="color:#e6db74">&#34;Gold Left: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>gold);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   textcolor (LIGHTGREEN);
+</span></span><span style="display:flex;"><span>   gotoxy (<span style="color:#ae81ff">43</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>   printf (<span style="color:#e6db74">&#34;Score: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>score);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   textcolor (LIGHTMAGENTA);
+</span></span><span style="display:flex;"><span>   gotoxy (<span style="color:#ae81ff">61</span>, MAXROW <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>   printf (<span style="color:#e6db74">&#34;High Score: %05d&#34;</span>, screen<span style="color:#f92672">-&gt;</span>high_score);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>There isn&rsquo;t much logic to test! However, we could try making a super simple test case that only verified that calls to the <code>gotoxy()</code> and <code>textcolor()</code> conio.h API functions are made with the right parameters in the right order.
 My approach is to create a <code>mock/conio.h</code> file that gets included by snake.c only in unit test builds. That file would have mock functions of all the conio.h API functions created by FFF, including <code>gotoxy()</code> and <code>textcolor()</code> inside of a mock conio.h header.<br>
 However, there is no way to link in our mocked conio.h file as the code is currently structured because of the file structure, the conio.h include statement and the C Preprocessor rules.</p>
 <p>For review, here&rsquo;s the file structure:</p>
@@ -555,9 +570,9 @@ However, there is no way to link in our mocked conio.h file as the code is curre
 ├── snake.c
 └── snake.h
 </code></pre><p>And here&rsquo;s the include statement in snake.c:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;conio.h&#34;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;snake.h&#34;</span><span style="color:#75715e">
-</span></code></pre></div><p>And here&rsquo;s a quick refresher on the gcc search path rules: <a href="https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html">https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html</a> with the relevant section here:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Cpp" data-lang="Cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;conio.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;snake.h&#34;</span><span style="color:#75715e">
+</span></span></span></code></pre></div><p>And here&rsquo;s a quick refresher on the gcc search path rules: <a href="https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html">https://gcc.gnu.org/onlinedocs/cpp/Search-Path.html</a> with the relevant section here:</p>
 <blockquote>
 <p>By default, the preprocessor looks for header files included by the quote form of the directive #include &ldquo;file&rdquo; first relative to the directory of the current file, and then in a preconfigured list of standard system directories.</p>
 </blockquote>
@@ -647,18 +662,18 @@ View online with:  <a href="https://github.com/30Wedge/snake-adding-unit-tests-t
 <h5 id="verify-gtest-is-working-with-fff">Verify GTest is working with fff</h5>
 <p>Before moving on, I&rsquo;m writing a tiny GTest unit test that includes fff to make sure that the test can link against the GTest library and find the <code>fff.h</code> file in its include path.
 The only purpose of this test is to make sure we installed Gtest and FFF succssfully, so its going to be short, like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;gtest/gtest.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fff.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-TEST(HelloTest, smoke_test_please_compile) {
-  <span style="color:#75715e">// Please compile
-</span><span style="color:#75715e"></span>  EXPECT_EQ(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>);
-}
-</code></pre></div><p>If we can compile this file, then GTest and FFF are integrated correctly, if not, then something is wrong.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Cpp" data-lang="Cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;gtest/gtest.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fff.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>TEST(HelloTest, smoke_test_please_compile) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Please compile
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  EXPECT_EQ(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>If we can compile this file, then GTest and FFF are integrated correctly, if not, then something is wrong.</p>
 <p>We can do this with these commands:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd app
-cmake . <span style="color:#f92672">&amp;&amp;</span> make <span style="color:#f92672">&amp;&amp;</span> ./snake_test
-</code></pre></div><p>You&rsquo;ll see some output with a percentage bar showing build progress and finally the familiar Gtest output showing that this test suite has passed.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd app
+</span></span><span style="display:flex;"><span>cmake . <span style="color:#f92672">&amp;&amp;</span> make <span style="color:#f92672">&amp;&amp;</span> ./snake_test
+</span></span></code></pre></div><p>You&rsquo;ll see some output with a percentage bar showing build progress and finally the familiar Gtest output showing that this test suite has passed.</p>
 <pre tabindex="0"><code>[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 </code></pre><p>Also, you might notice that the on the first time running this build, CMake has downloaded the googletest source code to the <code>app/_deps</code> directory and has installed it to the <code>app/lib</code> directory. This is where the build system is going to get the GTest libraries to link against to build our unit tests.</p>
@@ -671,9 +686,9 @@ View online with:  <a href="https://github.com/30Wedge/snake-adding-unit-tests-t
 <p>This commit moves the snake app&rsquo;s build system to CMake.<br>
 With one source file, and only a few preprocessor defines, it was a pretty straightforwards change.</p>
 <p>You should have both a <code>snake</code> and <code>snake_test</code> binary in your <code>/app</code> directory that will launch the app and unit tests respectively.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd app
-cmake . <span style="color:#f92672">&amp;&amp;</span> make
-</code></pre></div><h4 id="mock-the-conioh-dependency-with-fff">Mock the <code>conio.h</code> Dependency with fff</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd app
+</span></span><span style="display:flex;"><span>cmake . <span style="color:#f92672">&amp;&amp;</span> make
+</span></span></code></pre></div><h4 id="mock-the-conioh-dependency-with-fff">Mock the <code>conio.h</code> Dependency with fff</h4>
 <p>
 <div class="notices note" ><p>Follow along locally with: <code>git checkout c0702d9</code>
 View online with: <a href="https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/c0702d91499d3e2d11b76243f5b0d58ec3d70e68">https://github.com/30Wedge/snake-adding-unit-tests-to-legacy-code/tree/c0702d91499d3e2d11b76243f5b0d58ec3d70e68</a></p>
@@ -702,19 +717,19 @@ This is the last step before we&rsquo;re ready to link the <code>snake.o</code> 
 <p>Take a look at the implementation of the mock below.
 You can see that each function-like macro that&rsquo;s defined in <code>conio/conio.h</code> (the real libray) is defined by a <code>FAKE_VALUE_FUNC</code> macro. These macros are defined by fff and are used to automatically make mock functions from function signatures.</p>
 <h5 id="testmockconioh">test/mock/conio.h</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#75715e">//...
-</span><span style="color:#75715e"></span><span style="color:#75715e">/*
-</span><span style="color:#75715e"> * Define mocks for all of the function-like macros in conio.h.
-</span><span style="color:#75715e"> */</span>
-FAKE_VALUE_FUNC(<span style="color:#66d9ef">int</span>, clrscr);
-FAKE_VALUE_FUNC(<span style="color:#66d9ef">int</span>, clreol);
-FAKE_VALUE_FUNC(<span style="color:#66d9ef">int</span>, delline);
-FAKE_VALUE_FUNC2(<span style="color:#66d9ef">int</span>, gotoxy, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>);
-FAKE_VOID_FUNC(textattr, <span style="color:#66d9ef">int</span>);
-FAKE_VOID_FUNC(textcolor, <span style="color:#66d9ef">int</span>);
-FAKE_VOID_FUNC(textbackground, <span style="color:#66d9ef">int</span>);
-<span style="color:#75715e">//...
-</span></code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Define mocks for all of the function-like macros in conio.h.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">FAKE_VALUE_FUNC</span>(<span style="color:#66d9ef">int</span>, clrscr);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">FAKE_VALUE_FUNC</span>(<span style="color:#66d9ef">int</span>, clreol);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">FAKE_VALUE_FUNC</span>(<span style="color:#66d9ef">int</span>, delline);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">FAKE_VALUE_FUNC2</span>(<span style="color:#66d9ef">int</span>, gotoxy, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">FAKE_VOID_FUNC</span>(textattr, <span style="color:#66d9ef">int</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">FAKE_VOID_FUNC</span>(textcolor, <span style="color:#66d9ef">int</span>);
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">FAKE_VOID_FUNC</span>(textbackground, <span style="color:#66d9ef">int</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//...
+</span></span></span></code></pre></div><hr>
 <h4 id="what-are-those-fff-macros-doing-a-deeper-dive">What are those fff macros doing? A Deeper dive:</h4>
 <p>Lets focus on a single API call for a concrete example: <code>gotoxy(x, y)</code>. This is a function-like macro in conio.h that sets the color of text to write to the screen. If it were defined as a function, it would have a signature like this <code>int gotoxy(int x, int y);</code>.</p>
 <p>The example above uses the line <code>FAKE_VALUE_FUNC2(int, gotoxy, int, int);</code> to make a mock function satisfying that signature. Under the hood in fff.h, that macro expands to create two primary things.</p>
@@ -724,23 +739,23 @@ FAKE_VOID_FUNC(textbackground, <span style="color:#66d9ef">int</span>);
 </ol>
 <h5 id="a-concrete-example-of-how-to-use-the-mock-function-created-by-fff">A concrete example of how to use the mock function created by FFF.</h5>
 <p>Lets define this example function that the app-under-test might have called <code>foo()</code> that makes some conio.h API calls to <code>gotoxy()</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Cpp" data-lang="Cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">foo</span>() {
-    gotoxy(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">30</span>);
-    <span style="color:#75715e">//...
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> return_val <span style="color:#f92672">=</span> gotoxy(<span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">70</span>);
-    <span style="color:#75715e">//.. do something with return_val
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>Then lets define a sample test that calls the sample function <code>foo()</code> once. Before calling <code>foo()</code>, the test configures how the mocked <code>gotoxy()</code> function will behave. After calling <code>foo()</code> the test verifies that <code>foo()</code> interacted with <code>gotoxy()</code> as expected. We&rsquo;ll leave the actual configuration and verification in placeholders with <code>//...</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Cpp" data-lang="Cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">foo</span>() {
+</span></span><span style="display:flex;"><span>    gotoxy(<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">30</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> return_val <span style="color:#f92672">=</span> gotoxy(<span style="color:#ae81ff">50</span>,<span style="color:#ae81ff">70</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//.. do something with return_val
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>Then lets define a sample test that calls the sample function <code>foo()</code> once. Before calling <code>foo()</code>, the test configures how the mocked <code>gotoxy()</code> function will behave. After calling <code>foo()</code> the test verifies that <code>foo()</code> interacted with <code>gotoxy()</code> as expected. We&rsquo;ll leave the actual configuration and verification in placeholders with <code>//...</code>.</p>
 <pre tabindex="0"><code>TEST(ExampleTest, test_foo)
 {
     // Configure how the mocked version of gotoxy() will behave
     //   by modifying gotoxy_fake
     // ...
     
-    // Call the app under test's function:
+    // Call the app under test&#39;s function:
     foo()
     
-    // Verify how the API was used by reading gotoxy_fake's sense fields.
+    // Verify how the API was used by reading gotoxy_fake&#39;s sense fields.
     //...
 }
 </code></pre><p>In this example, all of the test configuration and verification happens by interacting with the <code>gotoxy_fake</code> struct that&rsquo;s generated by the FFF. Here&rsquo;s a list of some of the most useful members of this struct &amp; descriptions of what they do.</p>
@@ -779,10 +794,10 @@ FAKE_VOID_FUNC(textbackground, <span style="color:#66d9ef">int</span>);
     // have gotoxy() return 42
     gotoxy_fake.return_val = 42;
     
-    // Call the app under test's function:
+    // Call the app under test&#39;s function:
     foo()
     
-    // Verify how the API was used by reading gotoxy_fake's sense fields.
+    // Verify how the API was used by reading gotoxy_fake&#39;s sense fields.
     // make sure gotoxy() is called twice
     EXPECT_EQ(gotoxy_fake.call_count, 2);
     // make sure the arguments passed to gotoxy() are (20,30) and (50,70) in that order.
@@ -822,7 +837,7 @@ TEST(MockVerify, show_score_calls_some_API_calls) {
   // Call show_scores() which calls some conio.h API functions in its body
   show_score(&amp;my_screen);
 
-  // We're not going to specify *what* the API functions called were,
+  // We&#39;re not going to specify *what* the API functions called were,
   //   but these EXPECT statements show that at textcolor() and gotoxy() were called
   //   some non-zero number of times
   EXPECT_NE(textcolor_fake.call_count, 0);
@@ -842,26 +857,26 @@ View online with: <a href="https://github.com/30Wedge/snake-adding-unit-tests-to
 <p>I&rsquo;m adding this example to be thorough and show a little more of how to use GTest. Not all unit test cases need to use mocks to configure and verify behavior.</p>
 <p>This commit introduces a test suite to test <code>eat_gold ()</code>.</p>
 <p>Take a look at the implementation of this function in snake.c below:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">eat_gold</span> (snake_t <span style="color:#f92672">*</span>snake, screen_t <span style="color:#f92672">*</span>screen)
-{
-   snake_segment_t <span style="color:#f92672">*</span>head <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>snake<span style="color:#f92672">-&gt;</span>body[snake<span style="color:#f92672">-&gt;</span>len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
-
-   <span style="color:#75715e">/* We&#39;re called after collide_object() so we know it&#39;s
-</span><span style="color:#75715e">    * a piece of gold at this position.  Eat it up! */</span>
-   screen<span style="color:#f92672">-&gt;</span>grid[head<span style="color:#f92672">-&gt;</span>row <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][head<span style="color:#f92672">-&gt;</span>col <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39; &#39;</span>;
-
-   screen<span style="color:#f92672">-&gt;</span>gold<span style="color:#f92672">--</span>;
-   screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">+=</span> snake<span style="color:#f92672">-&gt;</span>len <span style="color:#f92672">*</span> screen<span style="color:#f92672">-&gt;</span>obstacles;
-   snake<span style="color:#f92672">-&gt;</span>len<span style="color:#f92672">++</span>;
-
-   <span style="color:#66d9ef">if</span> (screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">&gt;</span> screen<span style="color:#f92672">-&gt;</span>high_score)
-   {
-      screen<span style="color:#f92672">-&gt;</span>high_score <span style="color:#f92672">=</span> screen<span style="color:#f92672">-&gt;</span>score; <span style="color:#75715e">/* New high score! */</span>
-   }
-
-   <span style="color:#66d9ef">return</span> screen<span style="color:#f92672">-&gt;</span>gold;
-}
-</code></pre></div><p>Note that there are no other functions called from <code>eat_gold()</code>, including API calls, so we don&rsquo;t need to use fff to configure or verify this function.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">eat_gold</span> (<span style="color:#66d9ef">snake_t</span> <span style="color:#f92672">*</span>snake, <span style="color:#66d9ef">screen_t</span> <span style="color:#f92672">*</span>screen)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">snake_segment_t</span> <span style="color:#f92672">*</span>head <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>snake<span style="color:#f92672">-&gt;</span>body[snake<span style="color:#f92672">-&gt;</span>len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">/* We&#39;re called after collide_object() so we know it&#39;s
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    * a piece of gold at this position.  Eat it up! */</span>
+</span></span><span style="display:flex;"><span>   screen<span style="color:#f92672">-&gt;</span>grid[head<span style="color:#f92672">-&gt;</span>row <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][head<span style="color:#f92672">-&gt;</span>col <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39; &#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   screen<span style="color:#f92672">-&gt;</span>gold<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>   screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">+=</span> snake<span style="color:#f92672">-&gt;</span>len <span style="color:#f92672">*</span> screen<span style="color:#f92672">-&gt;</span>obstacles;
+</span></span><span style="display:flex;"><span>   snake<span style="color:#f92672">-&gt;</span>len<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">if</span> (screen<span style="color:#f92672">-&gt;</span>score <span style="color:#f92672">&gt;</span> screen<span style="color:#f92672">-&gt;</span>high_score)
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>      screen<span style="color:#f92672">-&gt;</span>high_score <span style="color:#f92672">=</span> screen<span style="color:#f92672">-&gt;</span>score; <span style="color:#75715e">/* New high score! */</span>
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> screen<span style="color:#f92672">-&gt;</span>gold;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Note that there are no other functions called from <code>eat_gold()</code>, including API calls, so we don&rsquo;t need to use fff to configure or verify this function.</p>
 <p>We can sense how this function behaves in two different ways:</p>
 <ol>
 <li>based on its <code>int</code> return value</li>
@@ -873,26 +888,26 @@ View online with: <a href="https://github.com/30Wedge/snake-adding-unit-tests-to
 </ol>
 <p>In some ways, this function is more simple to test than <code>show_score()</code> was. There are no dependencies to mock.</p>
 <p>However, take a look at the definition for the structs of the parameter types <code>snake_t</code> and  <code>screen_t</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span>
-{
-   <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>    speed;
-   direction_t     dir;
-
-   <span style="color:#66d9ef">int</span>             len;
-   snake_segment_t body[<span style="color:#ae81ff">100</span>];
-} snake_t;
-
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span>
-{
-   <span style="color:#66d9ef">int</span> level;
-   <span style="color:#66d9ef">int</span> score;
-   <span style="color:#66d9ef">int</span> high_score;
-   <span style="color:#66d9ef">int</span> gold;
-   <span style="color:#66d9ef">int</span> obstacles;
-
-   <span style="color:#66d9ef">char</span> grid[MAXROW][MAXCOL];
-} screen_t;
-</code></pre></div><p>Each of these structs has a lot of data. <code>snake_t</code> has members that are other structs. If we&rsquo;re only able to configure this function by deliberately crafting the input parameters, then we&rsquo;ll have to do a good amount of work to build these structs correctly.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">int</span>    speed;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">direction_t</span>     dir;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span>             len;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">snake_segment_t</span> body[<span style="color:#ae81ff">100</span>];
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">snake_t</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> level;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> score;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> high_score;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> gold;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> obstacles;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">char</span> grid[MAXROW][MAXCOL];
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">screen_t</span>;
+</span></span></code></pre></div><p>Each of these structs has a lot of data. <code>snake_t</code> has members that are other structs. If we&rsquo;re only able to configure this function by deliberately crafting the input parameters, then we&rsquo;ll have to do a good amount of work to build these structs correctly.
 Since the function communicates output by modifying its parameters, we&rsquo;re also going to have to do work to verify the relevant fields of those structs as output.</p>
 <p>Thankfully, this function doesn&rsquo;t have many branching control flow. There&rsquo;s only one <code>if</code> statement in the function body.</p>
 <p>As a first step to decide what to test, it can be helpful to describe what the function does in simple English statements.</p>
@@ -924,43 +939,43 @@ Since the function communicates output by modifying its parameters, we&rsquo;re 
 <p>These next sections are a walkthrough of the major components of these tests.</p>
 <h5 id="test-fixture-eatgoldtest">Test Fixture EatGoldTest</h5>
 <p>Below is the definition of the test fixture in full.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EatGoldTest</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> <span style="color:#f92672">::</span>testing<span style="color:#f92672">::</span>Test
-{
-<span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
-  snake_t m_snake;
-  screen_t m_screen;
-<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-
-  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SNAKE_POS_X <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SNAKE_POS_Y <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SNAKE_LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-
-  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> SCREEN_FILLER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;X&#39;</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> SCREEN_BLANK <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39; &#39;</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_GOLD <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_SCORE <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_HI_SCORE <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>;
-  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_OBSTACLES <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
-
-  EatGoldTest() {
-    <span style="color:#75715e">/// set up snake
-</span><span style="color:#75715e"></span>    m_snake.len <span style="color:#f92672">=</span> SNAKE_LEN;
-    m_snake.body[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> {SNAKE_POS_X, SNAKE_POS_Y};
-
-    <span style="color:#75715e">/// set up screen
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// fill screen up with filler to detect no-change in other spaces
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>){
-      <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>){
-        m_screen.grid[row][col] <span style="color:#f92672">=</span> SCREEN_FILLER;
-      }
-    }
-    m_screen.gold <span style="color:#f92672">=</span> SCREEN_GOLD;
-    m_screen.score <span style="color:#f92672">=</span> SCREEN_SCORE;
-    m_screen.high_score <span style="color:#f92672">=</span> SCREEN_HI_SCORE;
-    m_screen.obstacles <span style="color:#f92672">=</span> SCREEN_OBSTACLES;
-  }
-};
-</code></pre></div><p>This test fixture uses these three things at a high level</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EatGoldTest</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> <span style="color:#f92672">::</span>testing<span style="color:#f92672">::</span>Test
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>  snake_t m_snake;
+</span></span><span style="display:flex;"><span>  screen_t m_screen;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SNAKE_POS_X <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SNAKE_POS_Y <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SNAKE_LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> SCREEN_FILLER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;X&#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> SCREEN_BLANK <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39; &#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_GOLD <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_SCORE <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_HI_SCORE <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> SCREEN_OBSTACLES <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  EatGoldTest() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// set up snake
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    m_snake.len <span style="color:#f92672">=</span> SNAKE_LEN;
+</span></span><span style="display:flex;"><span>    m_snake.body[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> {SNAKE_POS_X, SNAKE_POS_Y};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/// set up screen
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// fill screen up with filler to detect no-change in other spaces
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>        m_screen.grid[row][col] <span style="color:#f92672">=</span> SCREEN_FILLER;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    m_screen.gold <span style="color:#f92672">=</span> SCREEN_GOLD;
+</span></span><span style="display:flex;"><span>    m_screen.score <span style="color:#f92672">=</span> SCREEN_SCORE;
+</span></span><span style="display:flex;"><span>    m_screen.high_score <span style="color:#f92672">=</span> SCREEN_HI_SCORE;
+</span></span><span style="display:flex;"><span>    m_screen.obstacles <span style="color:#f92672">=</span> SCREEN_OBSTACLES;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>This test fixture uses these three things at a high level</p>
 <ol>
 <li>Defines shared variables
 <ul>
@@ -980,16 +995,16 @@ Since the function communicates output by modifying its parameters, we&rsquo;re 
 </ol>
 <h5 id="test-return-code">Test return code</h5>
 <p>Now that we&rsquo;ve looked at the fixture definition, lets look at the first test case that uses this fixture.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++">TEST_F(EatGoldTest, test_eat_gold_return_value_is_correct)
-{
-  <span style="color:#75715e">/* Given: default screen &amp; snake*/</span>
-  <span style="color:#75715e">/* When */</span>
-  <span style="color:#66d9ef">int</span> ret <span style="color:#f92672">=</span> eat_gold(<span style="color:#f92672">&amp;</span>m_snake, <span style="color:#f92672">&amp;</span>m_screen);
-  <span style="color:#75715e">/* Then */</span>
-  <span style="color:#75715e">// decrement gold count
-</span><span style="color:#75715e"></span>  ASSERT_EQ(ret, m_screen.gold);
-}
-</code></pre></div><p>This is all we need. Most of the lines are comments. We don&rsquo;t have to do any of the work to set up <code>m_screen</code> or <code>m_snake</code> because that&rsquo;s been done in the fixture constructor.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span>TEST_F(EatGoldTest, test_eat_gold_return_value_is_correct)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* Given: default screen &amp; snake*/</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* When */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> ret <span style="color:#f92672">=</span> eat_gold(<span style="color:#f92672">&amp;</span>m_snake, <span style="color:#f92672">&amp;</span>m_screen);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* Then */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// decrement gold count
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  ASSERT_EQ(ret, m_screen.gold);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This is all we need. Most of the lines are comments. We don&rsquo;t have to do any of the work to set up <code>m_screen</code> or <code>m_snake</code> because that&rsquo;s been done in the fixture constructor.</p>
 <p>This test verifies that when passed the default <code>m_screen</code> object created by the fixture, <code>eat_gold()</code> returns the new value of <code>m_screen.gold</code>, and nothing else.</p>
 <p>Its tempting to try to have one unit test validate as much as possible, but I believe that if each test has a descriptive name and tests one thing, then its easier to figure out what&rsquo;s wrong when something bad happens.</p>
 <p>For example, if I change <code>return screen-&gt;gold;</code> in <code>eat_gold()</code> to <code>return 7;</code> Here&rsquo;s what the summary output of the test suite would look like:</p>
@@ -1008,35 +1023,35 @@ Since the function communicates output by modifying its parameters, we&rsquo;re 
 <li>It should not increase the <code>screen.high_score</code> member unless the score is greater than the previous high score.</li>
 </ul>
 <p>Here&rsquo;s how this test case verifies each of those statements in C++.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++">TEST_F(EatGoldTest, test_eat_gold_modifies_screen_correctly)
-{
-  <span style="color:#75715e">/* Given: default screen &amp; snake*/</span>
-  <span style="color:#75715e">/* When */</span>
-  eat_gold(<span style="color:#f92672">&amp;</span>m_snake, <span style="color:#f92672">&amp;</span>m_screen);
-  <span style="color:#75715e">/* Then */</span>
-  <span style="color:#75715e">// blank out the head of the snake on the screen
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>){
-    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>){
-      <span style="color:#66d9ef">if</span>(row <span style="color:#f92672">==</span> SNAKE_POS_X <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> col <span style="color:#f92672">==</span> SNAKE_POS_Y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
-      {
-        ASSERT_EQ(m_screen.grid[row][col], SCREEN_BLANK);
-      }
-      <span style="color:#66d9ef">else</span>
-      {
-        ASSERT_EQ(m_screen.grid[row][col], SCREEN_FILLER);
-      }
-    }
-  }
-
-  <span style="color:#75715e">// decrement gold count
-</span><span style="color:#75715e"></span>  ASSERT_EQ(m_screen.gold, SCREEN_GOLD <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
-
-  <span style="color:#75715e">// increase score but not hi score
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">int</span> score_increment <span style="color:#f92672">=</span> SNAKE_LEN <span style="color:#f92672">*</span> SCREEN_OBSTACLES;
-  ASSERT_EQ(m_screen.score, SCREEN_SCORE <span style="color:#f92672">+</span> score_increment);
-  ASSERT_EQ(m_screen.high_score, SCREEN_HI_SCORE);
-}
-</code></pre></div><p>See the companion repo for the other two test cases.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span>TEST_F(EatGoldTest, test_eat_gold_modifies_screen_correctly)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* Given: default screen &amp; snake*/</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* When */</span>
+</span></span><span style="display:flex;"><span>  eat_gold(<span style="color:#f92672">&amp;</span>m_snake, <span style="color:#f92672">&amp;</span>m_screen);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* Then */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// blank out the head of the snake on the screen
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> row <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; row <span style="color:#f92672">&lt;</span> MAXROW; row<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> col <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; col <span style="color:#f92672">&lt;</span> MAXCOL; col<span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span>(row <span style="color:#f92672">==</span> SNAKE_POS_X <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&amp;&amp;</span> col <span style="color:#f92672">==</span> SNAKE_POS_Y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        ASSERT_EQ(m_screen.grid[row][col], SCREEN_BLANK);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        ASSERT_EQ(m_screen.grid[row][col], SCREEN_FILLER);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// decrement gold count
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  ASSERT_EQ(m_screen.gold, SCREEN_GOLD <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// increase score but not hi score
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">int</span> score_increment <span style="color:#f92672">=</span> SNAKE_LEN <span style="color:#f92672">*</span> SCREEN_OBSTACLES;
+</span></span><span style="display:flex;"><span>  ASSERT_EQ(m_screen.score, SCREEN_SCORE <span style="color:#f92672">+</span> score_increment);
+</span></span><span style="display:flex;"><span>  ASSERT_EQ(m_screen.high_score, SCREEN_HI_SCORE);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>See the companion repo for the other two test cases.</p>
 <h4 id="are-these-test-cases-enough">Are these test cases enough?</h4>
 <p>I think it depends. These tests give enough coverage so that way an engineer could either add features or refactor the code with confidence that they wouldn&rsquo;t introduce a regression bug.</p>
 <p>I definitely don&rsquo;t think these tests cover all failure modes for the function though. If this code wasn&rsquo;t in a <code>snake</code> game, but was being certified in an airplane&rsquo;s flight control computer, then it would need a whole lot more &ldquo;robustness tests&rdquo; to cover how the function responds to unexpected input.</p>
@@ -1100,6 +1115,25 @@ From the rest of the code, its clear that this condition is not meant to happen.
             
                 
                     
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
                     
                 
                 
@@ -1124,8 +1158,10 @@ From the rest of the code, its clear that this condition is not meant to happen.
 	 
 	 
 		
-			<a class="nav nav-prev" href="/posts/" title="Posts"> <i class="fa fa-chevron-left"></i></a>
+			<a class="nav nav-prev" href="/posts/real-time-c&#43;&#43;-book-review/" title="Real Time C&#43;&#43; Book Review"> <i class="fa fa-chevron-left"></i></a>
 		
+		
+			<a class="nav nav-next" href="/posts/real-time-c&#43;&#43;-book-review/" title="Real Time C&#43;&#43; Book Review" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
 		
 	
     </div>
@@ -1135,19 +1171,19 @@ From the rest of the code, its clear that this condition is not meant to happen.
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="/js/clipboard.min.js?1639759727"></script>
-    <script src="/js/perfect-scrollbar.min.js?1639759727"></script>
-    <script src="/js/perfect-scrollbar.jquery.min.js?1639759727"></script>
-    <script src="/js/jquery.sticky.js?1639759727"></script>
-    <script src="/js/featherlight.min.js?1639759727"></script>
-    <script src="/js/highlight.pack.js?1639759727"></script>
+    <script src="/js/clipboard.min.js?1747946424"></script>
+    <script src="/js/perfect-scrollbar.min.js?1747946424"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1747946424"></script>
+    <script src="/js/jquery.sticky.js?1747946424"></script>
+    <script src="/js/featherlight.min.js?1747946424"></script>
+    <script src="/js/highlight.pack.js?1747946424"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="/js/modernizr.custom-3.6.0.js?1639759727"></script>
-    <script src="/js/learn.js?1639759727"></script>
-    <script src="/js/hugo-learn.js?1639759727"></script>
+    <script src="/js/modernizr.custom-3.6.0.js?1747946424"></script>
+    <script src="/js/learn.js?1747946424"></script>
+    <script src="/js/hugo-learn.js?1747946424"></script>
     
         
-            <script src="/mermaid/mermaid.js?1639759727"></script>
+            <script src="/mermaid/mermaid.js?1747946424"></script>
         
         <script>
             mermaid.initialize({ startOnLoad: true });
